@@ -13,7 +13,8 @@
 // limitations under the License.
 /**
  * Loads scripts in order and appends timestamp GET parameter to prevent the
- * browser from caching them.
+ * browser from caching them. This is only meant for development builds, not
+ * production.
  * @param {!Array.<string>} paths The paths to the js files to load.
  */
 function loadScriptsNoCache(paths) {
@@ -25,9 +26,7 @@ function loadScriptsNoCache(paths) {
   // again with the shifted path array when the script loads.
   var fileRef = document.createElement('script');
   fileRef.setAttribute('type', 'text/javascript');
-  var path = paths.shift();
-  var separator = path[path.length - 1] == '?' ? '&' : '?';
-  fileRef.setAttribute('src', path + separator + 'ts=' + Date.now());
+  fileRef.setAttribute('src', paths.shift() + '?ts=' + Date.now());
   fileRef.onload = function() {
     loadScriptsNoCache(paths);
   };
@@ -35,7 +34,12 @@ function loadScriptsNoCache(paths) {
   document.getElementsByTagName('head')[0].appendChild(fileRef);
 }
 
+
 loadScriptsNoCache([
-'https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadGamesSDK&',
-  'all.js'
+  'pixi-bundle.js',
+  // Make sure cast receiver SDK is loaded before games receiver SDK.
+  'https://www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js',
+  'https://www.gstatic.com/cast/sdk/libs/games/1.0.0/cast_games_receiver.js',
+  'all-bundle.js',
+  'spritedemo_main.js'
 ]);

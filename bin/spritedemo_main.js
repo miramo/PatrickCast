@@ -41,21 +41,10 @@ var initialize = function() {
   /** @suppress {missingRequire} */
   game = new cast.games.spritedemo.SpritedemoGame(gameManager);
 
-  var startGame = function() {
-    game.run(function() {
-      console.log('Game running.');
-      gameManager.updateGameStatusText('Game running.');
-    });
-  };
-
-  castReceiverManager.onReady = function(event) {
-    if (document.readyState === 'complete') {
-      startGame();
-    } else {
-      window.onload = startGame;
-    }
-  };
   castReceiverManager.start(appConfig);
+  game.run(function() {
+    console.log('Game running.');
+  });
 };
 
 if (document.readyState === 'complete') {

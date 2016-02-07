@@ -602,191 +602,10 @@ goog.defineClass.applyProperties_ = function(target, source) {
 goog.tagUnsealableClass = function() {
 };
 goog.UNSEALABLE_CONSTRUCTOR_PROPERTY_ = "goog_defineClass_legacy_unsealable";
-var cast = {games:{}};
+var cast = cast || {}; cast.games = cast.games || {};
 cast.games.common = {};
-cast.games.common.sender = {};
-cast.games.common.sender.CommandDocs = function() {
-  this.docs_ = ["Available commands:", "---"];
-  cast.games.common.sender.CommandDocs.instance_ = this;
-};
-cast.games.common.sender.CommandDocs.instance_ = null;
-cast.games.common.sender.CommandDocs.getInstance = function() {
-  var instance = cast.games.common.sender.CommandDocs.instance_;
-  return instance ? instance : new cast.games.common.sender.CommandDocs;
-};
-cast.games.common.sender.CommandDocs.prototype.help = function() {
-  console.log(this.docs_.join("\n"));
-  console.log("---");
-  console.log("You can also use the gameManagerClient global variable.");
-  console.log("For example, try this:");
-  console.log("  state = gameManagerClient.getCurrentState()");
-  console.log("  state.getApplicationName()");
-  console.log("---");
-};
-cast.games.common.sender.CommandDocs.prototype.add = function(documentation) {
-  this.docs_.push(documentation);
-};
-var commandDocs = cast.games.common.sender.CommandDocs.getInstance(), help = function() {
-  cast.games.common.sender.CommandDocs.getInstance().help();
-};
-goog.exportSymbol("help", help);
-commandDocs.add("help() - print available commands");
-goog.exportSymbol("sendPlayerAvailable", function(opt_playerId, opt_extraMessageData) {
-  if (!gameManagerClient) {
-    throw Error("No gameManagerClient defined.");
-  }
-  var successCallback = function(result) {
-    console.log("### sendPlayerAvailable succeeded. Result:");
-    console.dir(result);
-  }, errorCallback = function(error) {
-    console.log("### sendPlayerAvailable failed. Error:");
-    console.dir(error);
-  };
-  opt_playerId ? gameManagerClient.sendPlayerAvailableRequestWithPlayerId(opt_playerId, opt_extraMessageData ? opt_extraMessageData : null, successCallback, errorCallback) : gameManagerClient.sendPlayerAvailableRequest(opt_extraMessageData ? opt_extraMessageData : null, successCallback, errorCallback);
-});
-commandDocs.add("sendPlayerAvailable(opt_playerId, opt_extraMessageData) - send player available request");
-goog.exportSymbol("sendPlayerReady", function(opt_playerId, opt_extraMessageData) {
-  if (!gameManagerClient) {
-    throw Error("No gameManagerClient defined.");
-  }
-  var successCallback = function(result) {
-    console.log("### sendPlayerReady succeeded. Result:");
-    console.dir(result);
-  }, errorCallback = function(error) {
-    console.log("### sendPlayerReady failed. Error:");
-    console.dir(error);
-  };
-  opt_playerId ? gameManagerClient.sendPlayerReadyRequestWithPlayerId(opt_playerId, opt_extraMessageData ? opt_extraMessageData : null, successCallback, errorCallback) : gameManagerClient.sendPlayerReadyRequest(opt_extraMessageData ? opt_extraMessageData : null, successCallback, errorCallback);
-});
-commandDocs.add("sendPlayerReady(opt_playerId, opt_extraMessageData) - send player ready request");
-goog.exportSymbol("sendPlayerPlaying", function(opt_playerId, opt_extraMessageData) {
-  if (!gameManagerClient) {
-    throw Error("No gameManagerClient defined.");
-  }
-  var successCallback = function(result) {
-    console.log("### sendPlayerPlaying succeeded. Result:");
-    console.dir(result);
-  }, errorCallback = function(error) {
-    console.log("### sendPlayerPlaying failed. Error:");
-    console.dir(error);
-  };
-  opt_playerId ? gameManagerClient.sendPlayerPlayingRequestWithPlayerId(opt_playerId, opt_extraMessageData ? opt_extraMessageData : null, successCallback, errorCallback) : gameManagerClient.sendPlayerPlayingRequest(opt_extraMessageData ? opt_extraMessageData : null, successCallback, errorCallback);
-});
-commandDocs.add("sendPlayerPlaying(opt_playerId, opt_extraMessageData) - send player ready request");
-goog.exportSymbol("sendPlayerIdle", function(opt_playerId, opt_extraMessageData) {
-  if (!gameManagerClient) {
-    throw Error("No gameManagerClient defined.");
-  }
-  var successCallback = function(result) {
-    console.log("### sendPlayerIdle succeeded. Result:");
-    console.dir(result);
-  }, errorCallback = function(error) {
-    console.log("### sendPlayerIdle failed. Error:");
-    console.dir(error);
-  };
-  opt_playerId ? gameManagerClient.sendPlayerIdleRequestWithPlayerId(opt_playerId, opt_extraMessageData ? opt_extraMessageData : null, successCallback, errorCallback) : gameManagerClient.sendPlayerIdleRequest(opt_extraMessageData ? opt_extraMessageData : null, successCallback, errorCallback);
-});
-commandDocs.add("sendPlayerIdle(opt_playerId, opt_extraMessageData) - send player ready request");
-goog.exportSymbol("sendPlayerQuit", function(opt_playerId, opt_extraMessageData) {
-  if (!gameManagerClient) {
-    throw Error("No gameManagerClient defined.");
-  }
-  var successCallback = function(result) {
-    console.log("### sendPlayerQuit succeeded. Result:");
-    console.dir(result);
-  }, errorCallback = function(error) {
-    console.log("### sendPlayerQuit failed. Error:");
-    console.dir(error);
-  };
-  opt_playerId ? gameManagerClient.sendPlayerQuitRequestWithPlayerId(opt_playerId, opt_extraMessageData ? opt_extraMessageData : null, successCallback, errorCallback) : gameManagerClient.sendPlayerQuitRequest(opt_extraMessageData ? opt_extraMessageData : null, successCallback, errorCallback);
-});
-commandDocs.add("sendPlayerQuit(playerId, opt_extraMessageData) - send player quit request");
-goog.exportSymbol("sendGameRequest", function(opt_playerId, opt_extraMessageData) {
-  if (!gameManagerClient) {
-    throw Error("No gameManagerClient defined.");
-  }
-  var successCallback = function(result) {
-    console.log("### sendGameRequest succeeded. Result:");
-    console.dir(result);
-  }, errorCallback = function(error) {
-    console.log("### sendGameRequest failed. Error:");
-    console.dir(error);
-  };
-  opt_playerId ? gameManagerClient.sendGameRequestWithPlayerId(opt_playerId, opt_extraMessageData ? opt_extraMessageData : null, successCallback, errorCallback) : gameManagerClient.sendGameRequest(opt_extraMessageData ? opt_extraMessageData : null, successCallback, errorCallback);
-});
-commandDocs.add("sendGameRequest(playerId, opt_extraMessageData) - send game message request");
-goog.exportSymbol("sendGameMessage", function(opt_playerId, opt_extraMessageData) {
-  if (!gameManagerClient) {
-    throw Error("No gameManagerClient defined.");
-  }
-  opt_playerId ? gameManagerClient.sendGameMessageWithPlayerId(opt_playerId, opt_extraMessageData ? opt_extraMessageData : null) : gameManagerClient.sendGameMessage(opt_extraMessageData ? opt_extraMessageData : null);
-});
-commandDocs.add("sendGameMessage(playerId, opt_extraMessageData) - send game message (no response) request");
-cast.games.common.sender.debugGameManagerClient = function(gameManagerClient) {
-  console.log("### Adding game manager listeners for console debugging.");
-  gameManagerClient.addEventListener(chrome.cast.games.GameManagerEventType.STATE_CHANGED, cast.games.common.sender.debugGameManagerClient.onStateChanged_);
-  gameManagerClient.addEventListener(chrome.cast.games.GameManagerEventType.GAME_MESSAGE_RECEIVED, cast.games.common.sender.debugGameManagerClient.onGameMessageReceived_);
-};
-cast.games.common.sender.debugGameManagerClient.onStateChanged_ = function(event) {
-  var currentState = event.currentState, previousState = event.previousState;
-  if (currentState.hasLobbyStateChanged(previousState)) {
-    var previousLobbyState = cast.games.common.sender.debugGameManagerClient.getNameForValue_(chrome.cast.games.LobbyState, previousState.getLobbyState()), currentLobbyState = cast.games.common.sender.debugGameManagerClient.getNameForValue_(chrome.cast.games.LobbyState, currentState.getLobbyState());
-    console.log("### Lobby state change: " + previousLobbyState + " -> " + currentLobbyState);
-  }
-  if (currentState.hasGameplayStateChanged(previousState)) {
-    var previousGameplayState = cast.games.common.sender.debugGameManagerClient.getNameForValue_(chrome.cast.games.GameplayState, previousState.getGameplayState()), currentGameplayState = cast.games.common.sender.debugGameManagerClient.getNameForValue_(chrome.cast.games.GameplayState, currentState.getGameplayState());
-    console.log("### Gameplay state change: " + previousGameplayState + " -> " + currentGameplayState);
-  }
-  currentState.hasGameDataChanged(previousState) && (console.log("### Game data change:"), console.dir(previousState.getGameData()), console.log(" -> "), console.dir(currentState.getGameData()));
-  currentState.hasGameStatusTextChanged(previousState) && console.log("### Game status text change: " + previousState.getGameStatusText() + " -> " + currentState.getGameStatusText());
-  for (var changedPlayers = currentState.getListOfChangedPlayers(previousState), i = 0;i < changedPlayers.length;i++) {
-    var changedPlayerId = changedPlayers[i];
-    console.log("### Player Info change");
-    console.log("  previous player info:");
-    cast.games.common.sender.debugGameManagerClient.printPlayerInfo_(previousState.getPlayer(changedPlayerId));
-    console.log("  current player info:");
-    cast.games.common.sender.debugGameManagerClient.printPlayerInfo_(currentState.getPlayer(changedPlayerId));
-  }
-};
-cast.games.common.sender.debugGameManagerClient.onGameMessageReceived_ = function(event) {
-  console.log("### Game message:");
-  console.dir(event.gameMessage);
-};
-cast.games.common.sender.debugGameManagerClient.printPlayerInfo_ = function(playerInfo) {
-  if (playerInfo) {
-    var playerState = cast.games.common.sender.debugGameManagerClient.getNameForValue_(chrome.cast.games.PlayerState, playerInfo.getPlayerState());
-    console.log("  playerId:" + playerInfo.getPlayerId());
-    console.log("  playerState:" + playerState);
-    console.log("  playerData:");
-    console.dir(playerInfo.getPlayerData());
-  } else {
-    console.log("  null player info");
-  }
-};
-cast.games.common.sender.debugGameManagerClient.getNameForValue_ = function(object, value) {
-  for (var keys = Object.keys(object), i = 0;i < keys.length;i++) {
-    var key = keys[i];
-    if (object[key] == value) {
-      return key;
-    }
-  }
-  return "Unknown value: " + value;
-};
-cast.games.common.sender.setup = function(appId, sessionCallback) {
-  console.log("### Preparing session request and cast sender API config with app ID " + appId);
-  var sessionRequest = new chrome.cast.SessionRequest(appId), apiConfig = new chrome.cast.ApiConfig(sessionRequest, sessionCallback, cast.games.common.sender.setup.onCastReceiverChanged_);
-  console.log("### Initializing cast sender API and requesting a session.");
-  chrome.cast.initialize(apiConfig, cast.games.common.sender.setup.onCastInit_, cast.games.common.sender.setup.onCastError_);
-};
-cast.games.common.sender.setup.onCastReceiverChanged_ = function(receiverAvailability) {
-  receiverAvailability == chrome.cast.ReceiverAvailability.AVAILABLE ? console.log("\n### Click cast button in the Google Cast extension to start!\n") : console.log("\n### Not ready. Do NOT click cast button in the Google Cast extension.\n");
-};
-cast.games.common.sender.setup.onCastInit_ = function() {
-  console.log("### Cast sender API initialized.");
-};
-cast.games.common.sender.setup.onCastError_ = function(error) {
-  console.log("### Cast sender API error:");
-  console.dir(error);
+cast.games.common.receiver = {};
+cast.games.common.receiver.Game = function() {
 };
 cast.games.spritedemo = {};
 cast.games.spritedemo.SpritedemoMessageType = {UNKNOWN:0, SPRITE:1};
@@ -794,29 +613,108 @@ cast.games.spritedemo.SpritedemoMessage = function() {
   this.type = cast.games.spritedemo.SpritedemoMessageType.UNKNOWN;
 };
 goog.exportSymbol("cast.games.spritedemo.SpritedemoMessage", cast.games.spritedemo.SpritedemoMessage);
-var gameManagerClient = null;
-window.__onGCastApiAvailable = function(loaded, errorInfo) {
-  loaded ? cast.games.common.sender.setup("D6120C32", onSessionReady_) : (console.error("### Cast Sender SDK failed to load:"), console.dir(errorInfo));
+cast.games.spritedemo.SpritedemoGame = function(gameManager) {
+  this.gameManager_ = gameManager;
+  this.debugUi = new cast.receiver.games.debug.DebugUI(this.gameManager_);
+  this.canvasWidth_ = window.innerWidth;
+  this.canvasHeight_ = window.innerHeight;
+  this.sprites_ = [];
+  this.spriteVelocities_ = [];
+  this.backgroundPosition_ = this.numberSpritesAdded_ = 0;
+  this.backgroundWrap_ = this.background_ = null;
+  this.boundUpdateFunction_ = this.update_.bind(this);
+  this.isRunning_ = this.isLoaded_ = !1;
+  this.container_ = new PIXI.Container;
+  this.renderer_ = new PIXI.WebGLRenderer(this.canvasWidth_, this.canvasHeight_);
+  this.loader_ = new PIXI.loaders.Loader;
+  this.loader_.add("assets/icon.png");
+  this.loader_.add("assets/background.jpg");
+  this.loader_.once("complete", this.onAssetsLoaded_.bind(this));
+  this.loadedCallback_ = null;
+  this.boundGameMessageCallback_ = this.onGameMessage_.bind(this);
+  this.boundPlayerAvailableCallback_ = this.onPlayerAvailable_.bind(this);
+  this.boundPlayerQuitCallback_ = this.onPlayerQuit_.bind(this);
 };
-var onSessionReady_ = function(session) {
-  console.log("### Creating game manager client.");
-  chrome.cast.games.GameManagerClient.getInstanceFor(session, function(result) {
-    console.log("### Game manager client initialized!");
-    gameManagerClient = result.gameManagerClient;
-    cast.games.common.sender.debugGameManagerClient(gameManagerClient);
-    console.log("### Sending AVAILABLE message.");
-    gameManagerClient.sendPlayerAvailableRequest(null, null, null);
-    help();
-  }, function(error) {
-    console.error("### Error initializing the game manager client: " + error.errorDescription + " Error code: " + error.errorCode);
-  });
+goog.exportSymbol("cast.games.spritedemo.SpritedemoGame", cast.games.spritedemo.SpritedemoGame);
+cast.games.spritedemo.SpritedemoGame.MAX_NUM_SPRITES = 200;
+cast.games.spritedemo.SpritedemoGame.SCALE = 1;
+cast.games.spritedemo.SpritedemoGame.getRandomInt = function(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-goog.exportSymbol("sendSpritedemoMessage", function() {
-  if (gameManagerClient) {
-    var message = new cast.games.spritedemo.SpritedemoMessage;
-    message.type = cast.games.spritedemo.SpritedemoMessageType.SPRITE;
-    gameManagerClient.sendGameMessage(message);
+cast.games.spritedemo.SpritedemoGame.prototype.run = function(loadedCallback) {
+  this.isRunning_ ? loadedCallback() : (this.loadedCallback_ = loadedCallback, this.isLoaded_ ? this.start_() : this.loader_.load());
+};
+goog.exportProperty(cast.games.spritedemo.SpritedemoGame.prototype, "run", cast.games.spritedemo.SpritedemoGame.prototype.run);
+cast.games.spritedemo.SpritedemoGame.prototype.stop = function() {
+  this.loadedCallback_ || !this.isRunning_ ? this.loadedCallback_ = null : (this.isRunning_ = !1, document.body.removeChild(this.renderer_.view), this.gameManager_.removeEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE, this.boundPlayerAvailableCallback_), this.gameManager_.removeEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED, this.boundGameMessageCallback_), this.gameManager_.removeEventListener(cast.receiver.games.EventType.PLAYER_QUIT, this.boundPlayerQuitCallback_), 
+  this.gameManager_.removeEventListener(cast.receiver.games.EventType.PLAYER_DROPPED, this.boundPlayerQuitCallback_));
+};
+goog.exportProperty(cast.games.spritedemo.SpritedemoGame.prototype, "stop", cast.games.spritedemo.SpritedemoGame.prototype.stop);
+cast.games.spritedemo.SpritedemoGame.prototype.start_ = function() {
+  this.loadedCallback_ && (document.body.appendChild(this.renderer_.view), this.isRunning_ = !0, this.gameManager_.updateGameplayState(cast.receiver.games.GameplayState.RUNNING, null), requestAnimationFrame(this.boundUpdateFunction_), this.loadedCallback_(), this.loadedCallback_ = null, this.gameManager_.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE, this.boundPlayerAvailableCallback_), this.gameManager_.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED, this.boundGameMessageCallback_), 
+  this.gameManager_.addEventListener(cast.receiver.games.EventType.PLAYER_QUIT, this.boundPlayerQuitCallback_), this.gameManager_.addEventListener(cast.receiver.games.EventType.PLAYER_DROPPED, this.boundPlayerQuitCallback_));
+};
+cast.games.spritedemo.SpritedemoGame.prototype.onAssetsLoaded_ = function() {
+  this.background_ = PIXI.Sprite.fromImage("assets/background.jpg");
+  this.background2_ = PIXI.Sprite.fromImage("assets/background.jpg");
+  this.background_.position.x = this.background_.position.y = 0;
+  this.background2_.position.x = this.background2_.position.y = 0;
+  this.container_.addChild(this.background_);
+  this.container_.addChild(this.background2_);
+  for (var i = 0;i < cast.games.spritedemo.SpritedemoGame.MAX_NUM_SPRITES;i++) {
+    var sprite = PIXI.Sprite.fromImage("assets/icon.png");
+    sprite.anchor.x = .5;
+    sprite.anchor.y = .5;
+    sprite.scale.x = sprite.scale.y = cast.games.spritedemo.SpritedemoGame.SCALE;
+    this.sprites_[i] = sprite;
+    this.spriteVelocities_[i] = {x:0, y:0};
   }
-});
-commandDocs.add("sendSpritedemoMessage() - This function creates a new cast.games.spritedemo.SpritedemoMessage(), which is a container created specifically for the needs of this cast application. It then  sends the message to the receiver using the  sendGameMessageWithPlayerId function in GameManagerClient.");
+  this.start_();
+};
+cast.games.spritedemo.SpritedemoGame.prototype.onPlayerAvailable_ = function(event) {
+  event.statusCode != cast.receiver.games.StatusCode.SUCCESS ? (console.log("Error: Event status code: " + event.statusCode), console.log("Reason for error: " + event.errorDescription)) : this.gameManager_.updatePlayerState(event.playerInfo.playerId, cast.receiver.games.PlayerState.PLAYING, null);
+};
+cast.games.spritedemo.SpritedemoGame.prototype.onPlayerQuit_ = function(event) {
+  event.statusCode != cast.receiver.games.StatusCode.SUCCESS ? (console.log("Error: Event status code: " + event.statusCode), console.log("Reason for error: " + event.errorDescription)) : 0 == this.gameManager_.getConnectedPlayers().length && (console.log("No more players connected. Tearing down game."), cast.receiver.CastReceiverManager.getInstance().stop());
+};
+cast.games.spritedemo.SpritedemoGame.prototype.onGameMessage_ = function(event) {
+  if (event.statusCode != cast.receiver.games.StatusCode.SUCCESS) {
+    console.log("Error: Event status code: " + event.statusCode), console.log("Reason for error: " + event.errorDescription);
+  } else {
+    if (event.requestExtraMessageData.type == cast.games.spritedemo.SpritedemoMessageType.SPRITE) {
+      if (this.numberSpritesAdded_ < cast.games.spritedemo.SpritedemoGame.MAX_NUM_SPRITES) {
+        var sprite = this.sprites_[this.numberSpritesAdded_];
+        sprite.position.x = cast.games.spritedemo.SpritedemoGame.getRandomInt(sprite.width / 2, this.canvasWidth_ - sprite.width / 2);
+        sprite.position.y = cast.games.spritedemo.SpritedemoGame.getRandomInt(sprite.height / 2, this.canvasHeight_ - sprite.height / 2);
+        this.numberSpritesAdded_ += 1;
+        this.container_.addChild(sprite);
+      } else {
+        console.log("Maximum number of sprites added. Not adding a new one");
+      }
+    }
+  }
+};
+cast.games.spritedemo.SpritedemoGame.prototype.update_ = function() {
+  if (this.isRunning_) {
+    requestAnimationFrame(this.boundUpdateFunction_);
+    for (var i = 0;i < this.numberSpritesAdded_;i++) {
+      this.sprites_[i].rotation += .1;
+      this.spriteVelocities_[i].x += cast.games.spritedemo.SpritedemoGame.getRandomInt(-2, 2);
+      this.spriteVelocities_[i].y += cast.games.spritedemo.SpritedemoGame.getRandomInt(-2, 2);
+      10 < Math.abs(this.spriteVelocities_[i].x) && (this.spriteVelocities_[i].x *= .8);
+      10 < Math.abs(this.spriteVelocities_[i].y) && (this.spriteVelocities_[i].y *= .8);
+      this.sprites_[i].position.x += this.spriteVelocities_[i].x;
+      this.sprites_[i].position.y += this.spriteVelocities_[i].y;
+      var spriteX = this.sprites_[i].position.x, spriteY = this.sprites_[i].position.y;
+      0 >= spriteX ? (this.spriteVelocities_[i].x *= -1, this.sprites_[i].position.x = 0) : spriteX >= this.canvasWidth_ && (this.spriteVelocities_[i].x *= -1, this.sprites_[i].position.x = this.canvasWidth_);
+      0 >= spriteY ? (this.spriteVelocities_[i].y *= -1, this.sprites_[i].position.y = 0) : spriteY >= this.canvasHeight_ && (this.spriteVelocities_[i].y *= -1, this.sprites_[i].position.y = this.canvasHeight_);
+    }
+    this.backgroundPosition_++;
+    this.background_.position.x = this.backgroundPosition_;
+    this.background_.position.x %= this.background_.texture.width;
+    this.background2_.position.x = this.background_.position.x;
+    this.background2_.position.x -= this.background_.texture.width;
+    this.renderer_.render(this.container_);
+  }
+};
 
