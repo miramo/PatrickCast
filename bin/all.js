@@ -607,114 +607,20 @@ cast.games.common = {};
 cast.games.common.receiver = {};
 cast.games.common.receiver.Game = function() {
 };
-cast.games.spritedemo = {};
-cast.games.spritedemo.SpritedemoMessageType = {UNKNOWN:0, SPRITE:1};
-cast.games.spritedemo.SpritedemoMessage = function() {
-  this.type = cast.games.spritedemo.SpritedemoMessageType.UNKNOWN;
+cast.games.gamedebugger = {};
+cast.games.gamedebugger.GameDebuggerGame = function(GameManager) {
+  this.gameManager_ = GameManager;
+  this.debugUi = new cast.receiver.games.debug.DebugUI(GameManager);
 };
-goog.exportSymbol("cast.games.spritedemo.SpritedemoMessage", cast.games.spritedemo.SpritedemoMessage);
-cast.games.spritedemo.SpritedemoGame = function(gameManager) {
-  this.gameManager_ = gameManager;
-  this.debugUi = new cast.receiver.games.debug.DebugUI(this.gameManager_);
-  this.canvasWidth_ = window.innerWidth;
-  this.canvasHeight_ = window.innerHeight;
-  this.sprites_ = [];
-  this.spriteVelocities_ = [];
-  this.backgroundPosition_ = this.numberSpritesAdded_ = 0;
-  this.backgroundWrap_ = this.background_ = null;
-  this.boundUpdateFunction_ = this.update_.bind(this);
-  this.isRunning_ = this.isLoaded_ = !1;
-  this.container_ = new PIXI.Container;
-  this.renderer_ = new PIXI.WebGLRenderer(this.canvasWidth_, this.canvasHeight_);
-  this.loader_ = new PIXI.loaders.Loader;
-  this.loader_.add("assets/icon.png");
-  this.loader_.add("assets/background.jpg");
-  this.loader_.once("complete", this.onAssetsLoaded_.bind(this));
-  this.loadedCallback_ = null;
-  this.boundGameMessageCallback_ = this.onGameMessage_.bind(this);
-  this.boundPlayerAvailableCallback_ = this.onPlayerAvailable_.bind(this);
-  this.boundPlayerQuitCallback_ = this.onPlayerQuit_.bind(this);
+goog.exportSymbol("cast.games.gamedebugger.GameDebuggerGame", cast.games.gamedebugger.GameDebuggerGame);
+cast.games.gamedebugger.GameDebuggerGame.prototype.run = function(loadedCallback) {
+  this.gameManager_.updateGameplayState(cast.receiver.games.GameplayState.RUNNING, null);
+  loadedCallback();
+  this.debugUi.open();
 };
-goog.exportSymbol("cast.games.spritedemo.SpritedemoGame", cast.games.spritedemo.SpritedemoGame);
-cast.games.spritedemo.SpritedemoGame.MAX_NUM_SPRITES = 200;
-cast.games.spritedemo.SpritedemoGame.SCALE = 1;
-cast.games.spritedemo.SpritedemoGame.getRandomInt = function(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+goog.exportProperty(cast.games.gamedebugger.GameDebuggerGame.prototype, "run", cast.games.gamedebugger.GameDebuggerGame.prototype.run);
+cast.games.gamedebugger.GameDebuggerGame.prototype.stop = function() {
+  this.debugUi.close();
 };
-cast.games.spritedemo.SpritedemoGame.prototype.run = function(loadedCallback) {
-  this.isRunning_ ? loadedCallback() : (this.loadedCallback_ = loadedCallback, this.isLoaded_ ? this.start_() : this.loader_.load());
-};
-goog.exportProperty(cast.games.spritedemo.SpritedemoGame.prototype, "run", cast.games.spritedemo.SpritedemoGame.prototype.run);
-cast.games.spritedemo.SpritedemoGame.prototype.stop = function() {
-  this.loadedCallback_ || !this.isRunning_ ? this.loadedCallback_ = null : (this.isRunning_ = !1, document.body.removeChild(this.renderer_.view), this.gameManager_.removeEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE, this.boundPlayerAvailableCallback_), this.gameManager_.removeEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED, this.boundGameMessageCallback_), this.gameManager_.removeEventListener(cast.receiver.games.EventType.PLAYER_QUIT, this.boundPlayerQuitCallback_), 
-  this.gameManager_.removeEventListener(cast.receiver.games.EventType.PLAYER_DROPPED, this.boundPlayerQuitCallback_));
-};
-goog.exportProperty(cast.games.spritedemo.SpritedemoGame.prototype, "stop", cast.games.spritedemo.SpritedemoGame.prototype.stop);
-cast.games.spritedemo.SpritedemoGame.prototype.start_ = function() {
-  this.loadedCallback_ && (document.body.appendChild(this.renderer_.view), this.isRunning_ = !0, this.gameManager_.updateGameplayState(cast.receiver.games.GameplayState.RUNNING, null), requestAnimationFrame(this.boundUpdateFunction_), this.loadedCallback_(), this.loadedCallback_ = null, this.gameManager_.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE, this.boundPlayerAvailableCallback_), this.gameManager_.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED, this.boundGameMessageCallback_), 
-  this.gameManager_.addEventListener(cast.receiver.games.EventType.PLAYER_QUIT, this.boundPlayerQuitCallback_), this.gameManager_.addEventListener(cast.receiver.games.EventType.PLAYER_DROPPED, this.boundPlayerQuitCallback_));
-};
-cast.games.spritedemo.SpritedemoGame.prototype.onAssetsLoaded_ = function() {
-  this.background_ = PIXI.Sprite.fromImage("assets/background.jpg");
-  this.background2_ = PIXI.Sprite.fromImage("assets/background.jpg");
-  this.background_.position.x = this.background_.position.y = 0;
-  this.background2_.position.x = this.background2_.position.y = 0;
-  this.container_.addChild(this.background_);
-  this.container_.addChild(this.background2_);
-  for (var i = 0;i < cast.games.spritedemo.SpritedemoGame.MAX_NUM_SPRITES;i++) {
-    var sprite = PIXI.Sprite.fromImage("assets/icon.png");
-    sprite.anchor.x = .5;
-    sprite.anchor.y = .5;
-    sprite.scale.x = sprite.scale.y = cast.games.spritedemo.SpritedemoGame.SCALE;
-    this.sprites_[i] = sprite;
-    this.spriteVelocities_[i] = {x:0, y:0};
-  }
-  this.start_();
-};
-cast.games.spritedemo.SpritedemoGame.prototype.onPlayerAvailable_ = function(event) {
-  event.statusCode != cast.receiver.games.StatusCode.SUCCESS ? (console.log("Error: Event status code: " + event.statusCode), console.log("Reason for error: " + event.errorDescription)) : this.gameManager_.updatePlayerState(event.playerInfo.playerId, cast.receiver.games.PlayerState.PLAYING, null);
-};
-cast.games.spritedemo.SpritedemoGame.prototype.onPlayerQuit_ = function(event) {
-  event.statusCode != cast.receiver.games.StatusCode.SUCCESS ? (console.log("Error: Event status code: " + event.statusCode), console.log("Reason for error: " + event.errorDescription)) : 0 == this.gameManager_.getConnectedPlayers().length && (console.log("No more players connected. Tearing down game."), cast.receiver.CastReceiverManager.getInstance().stop());
-};
-cast.games.spritedemo.SpritedemoGame.prototype.onGameMessage_ = function(event) {
-  if (event.statusCode != cast.receiver.games.StatusCode.SUCCESS) {
-    console.log("Error: Event status code: " + event.statusCode), console.log("Reason for error: " + event.errorDescription);
-  } else {
-    if (event.requestExtraMessageData.type == cast.games.spritedemo.SpritedemoMessageType.SPRITE) {
-      if (this.numberSpritesAdded_ < cast.games.spritedemo.SpritedemoGame.MAX_NUM_SPRITES) {
-        var sprite = this.sprites_[this.numberSpritesAdded_];
-        sprite.position.x = cast.games.spritedemo.SpritedemoGame.getRandomInt(sprite.width / 2, this.canvasWidth_ - sprite.width / 2);
-        sprite.position.y = cast.games.spritedemo.SpritedemoGame.getRandomInt(sprite.height / 2, this.canvasHeight_ - sprite.height / 2);
-        this.numberSpritesAdded_ += 1;
-        this.container_.addChild(sprite);
-      } else {
-        console.log("Maximum number of sprites added. Not adding a new one");
-      }
-    }
-  }
-};
-cast.games.spritedemo.SpritedemoGame.prototype.update_ = function() {
-  if (this.isRunning_) {
-    requestAnimationFrame(this.boundUpdateFunction_);
-    for (var i = 0;i < this.numberSpritesAdded_;i++) {
-      this.sprites_[i].rotation += .1;
-      this.spriteVelocities_[i].x += cast.games.spritedemo.SpritedemoGame.getRandomInt(-2, 2);
-      this.spriteVelocities_[i].y += cast.games.spritedemo.SpritedemoGame.getRandomInt(-2, 2);
-      10 < Math.abs(this.spriteVelocities_[i].x) && (this.spriteVelocities_[i].x *= .8);
-      10 < Math.abs(this.spriteVelocities_[i].y) && (this.spriteVelocities_[i].y *= .8);
-      this.sprites_[i].position.x += this.spriteVelocities_[i].x;
-      this.sprites_[i].position.y += this.spriteVelocities_[i].y;
-      var spriteX = this.sprites_[i].position.x, spriteY = this.sprites_[i].position.y;
-      0 >= spriteX ? (this.spriteVelocities_[i].x *= -1, this.sprites_[i].position.x = 0) : spriteX >= this.canvasWidth_ && (this.spriteVelocities_[i].x *= -1, this.sprites_[i].position.x = this.canvasWidth_);
-      0 >= spriteY ? (this.spriteVelocities_[i].y *= -1, this.sprites_[i].position.y = 0) : spriteY >= this.canvasHeight_ && (this.spriteVelocities_[i].y *= -1, this.sprites_[i].position.y = this.canvasHeight_);
-    }
-    this.backgroundPosition_++;
-    this.background_.position.x = this.backgroundPosition_;
-    this.background_.position.x %= this.background_.texture.width;
-    this.background2_.position.x = this.background_.position.x;
-    this.background2_.position.x -= this.background_.texture.width;
-    this.renderer_.render(this.container_);
-  }
-};
+goog.exportProperty(cast.games.gamedebugger.GameDebuggerGame.prototype, "stop", cast.games.gamedebugger.GameDebuggerGame.prototype.stop);
 

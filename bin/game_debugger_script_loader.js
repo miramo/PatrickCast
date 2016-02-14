@@ -34,12 +34,10 @@ function loadScriptsNoCache(paths) {
   document.getElementsByTagName('head')[0].appendChild(fileRef);
 }
 
-
 loadScriptsNoCache([
-  'pixi-bundle.js',
   // Make sure cast receiver SDK is loaded before games receiver SDK.
-  'https://www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js',
-  'https://www.gstatic.com/cast/sdk/libs/games/1.0.0/cast_games_receiver.js',
-  'all-bundle.js',
-  'spritedemo_main.js'
+  'https:///www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js',
+'https://www.gstatic.com/cast/sdk/libs/games/1.0.0/cast_games_receiver.js',
+  'all.js',
+  'game_debugger_main.js'
 ]);
