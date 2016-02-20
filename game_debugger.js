@@ -51,7 +51,7 @@ cast.games.gamedebugger.GameDebuggerGame.prototype.run =
   this.gameManager_.updateGameplayState(
       cast.receiver.games.GameplayState.RUNNING, null);
   loadedCallback();
-  this.debugUi.open();
+  //this.debugUi.open();
 };
 
 
@@ -61,5 +61,5 @@ cast.games.gamedebugger.GameDebuggerGame.prototype.run =
  */
 cast.games.gamedebugger.GameDebuggerGame.prototype.stop =
     function() {
-  this.debugUi.close();
+  //this.debugUi.close();
 };
