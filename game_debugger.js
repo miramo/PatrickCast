@@ -35,7 +35,7 @@ cast.games.gamedebugger.GameDebuggerGame =
    * the debug UI although in this sample, we automatically open the debug UI.
    * @public {!cast.receiver.games.debug.DebugUI}
    */
-  //this.debugUi = new cast.receiver.games.debug.DebugUI(GameManager);
+  this.debugUi = new cast.receiver.games.debug.DebugUI(GameManager);
 };
 
 
@@ -46,12 +46,10 @@ cast.games.gamedebugger.GameDebuggerGame =
  *     finishes loading or is already loaded and about to actually run.
  * @export
  */
-cast.games.gamedebugger.GameDebuggerGame.prototype.run =
-    function(loadedCallback) {
-  this.gameManager_.updateGameplayState(
-      cast.receiver.games.GameplayState.RUNNING, null);
+cast.games.gamedebugger.GameDebuggerGame.prototype.run = function(loadedCallback) {
+  this.gameManager_.updateGameplayState(cast.receiver.games.GameplayState.RUNNING, null);
   loadedCallback();
-  //this.debugUi.open();
+  this.debugUi.open();
 };
 
 
@@ -61,5 +59,5 @@ cast.games.gamedebugger.GameDebuggerGame.prototype.run =
  */
 cast.games.gamedebugger.GameDebuggerGame.prototype.stop =
     function() {
-  //this.debugUi.close();
+  this.debugUi.close();
 };
