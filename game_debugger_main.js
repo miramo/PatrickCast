@@ -24,7 +24,7 @@ var initialize = function() {
   var castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
   var appConfig = new cast.receiver.CastReceiverManager.Config();
 
-  appConfig.statusText = 'GameDebugger ready.';
+  appConfig.statusText = 'AskNCast ready.';
   // In production, use the default maxInactivity instead of using this.
   appConfig.maxInactivity = 6000;
 
@@ -32,21 +32,20 @@ var initialize = function() {
   // cast namespaces can be set up.
   /** @suppress {missingRequire} */
   var gameConfig = new cast.receiver.games.GameManagerConfig();
-  gameConfig.applicationName = 'GameDebugger';
+  gameConfig.applicationName = 'AskNCast';
   // Allow more than the default number of players for this debugger receiver.
   gameConfig.maxPlayers = 10;
   /** @suppress {missingRequire} */
   var gameManager = new cast.receiver.games.GameManager(gameConfig);
   /** @suppress {missingRequire} */
-  game = new cast.games.gamedebugger.GameDebuggerGame(
-      gameManager);
+  game = new cast.games.gamedebugger.GameDebuggerGame(gameManager);
 
   // Note that we will not automatically tear down the debugger if there are no
   // senders to make it easy for playing with the receiver using devtools.
   var startGame = function() {
     game.run(function() {
-      console.log('Game debugger running.');
-      gameManager.updateGameStatusText('Game debugger running.');
+      console.log(gameConfig.applicationName + ' running.');
+      gameManager.updateGameStatusText(gameConfig.applicationName + ' running.');
     });
   };
 
