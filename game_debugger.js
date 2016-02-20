@@ -35,7 +35,7 @@ cast.games.gamedebugger.GameDebuggerGame =
    * the debug UI although in this sample, we automatically open the debug UI.
    * @public {!cast.receiver.games.debug.DebugUI}
    */
-  this.debugUi = new cast.receiver.games.debug.DebugUI(GameManager);
+  //this.debugUi = new cast.receiver.games.debug.DebugUI(GameManager);
 };
 
 
