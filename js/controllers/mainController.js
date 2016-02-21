@@ -5,6 +5,6 @@
 
 app.controller('mainController', ['$scope', function ($scope) {
 
-
+    $scope.gameManager = game.gameManager_;
 
 }]);

@@ -16,7 +16,6 @@ goog.provide('cast.games.gamedebugger.GameDebuggerGame');
 goog.require('cast.games.common.receiver.Game');
 
 
-
 /**
  * The game manager debugger. Shows how to add the debug UI to a receiver.
  *
@@ -25,17 +24,17 @@ goog.require('cast.games.common.receiver.Game');
  * @constructor
  * @export
  */
-cast.games.gamedebugger.GameDebuggerGame =
-    function(GameManager) {
-  /** @private {!cast.receiver.games.GameManager} */
-  this.gameManager_ = GameManager;
+cast.games.gamedebugger.GameDebuggerGame = function (GameManager)
+{
+    /** @private {!cast.receiver.games.GameManager} */
+    this.gameManager_ = GameManager;
 
-  /**
-   * You can access this in the dev console if you want to play around with
-   * the debug UI although in this sample, we automatically open the debug UI.
-   * @public {!cast.receiver.games.debug.DebugUI}
-   */
-  this.debugUi = new cast.receiver.games.debug.DebugUI(GameManager);
+    /**
+     * You can access this in the dev console if you want to play around with
+     * the debug UI although in this sample, we automatically open the debug UI.
+     * @public {!cast.receiver.games.debug.DebugUI}
+     */
+    this.debugUi = new cast.receiver.games.debug.DebugUI(GameManager);
 };
 
 
@@ -46,10 +45,11 @@ cast.games.gamedebugger.GameDebuggerGame =
  *     finishes loading or is already loaded and about to actually run.
  * @export
  */
-cast.games.gamedebugger.GameDebuggerGame.prototype.run = function(loadedCallback) {
-  this.gameManager_.updateGameplayState(cast.receiver.games.GameplayState.RUNNING, null);
-  loadedCallback();
-  this.debugUi.open();
+cast.games.gamedebugger.GameDebuggerGame.prototype.run = function (loadedCallback)
+{
+    this.gameManager_.updateGameplayState(cast.receiver.games.GameplayState.RUNNING, null);
+    loadedCallback();
+    //this.debugUi.open();
 };
 
 
@@ -57,7 +57,7 @@ cast.games.gamedebugger.GameDebuggerGame.prototype.run = function(loadedCallback
  * Stops the game and closes the debug UI.
  * @export
  */
-cast.games.gamedebugger.GameDebuggerGame.prototype.stop =
-    function() {
-  this.debugUi.close();
+cast.games.gamedebugger.GameDebuggerGame.prototype.stop = function ()
+{
+    //this.debugUi.close();
 };
