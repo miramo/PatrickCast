@@ -53,4 +53,4 @@ crashlytics-build.properties
 *.DS_Store
 .idea/*
 node_modules/*
-bower_components/*
+#bower_components/*
