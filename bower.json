@@ -1,0 +1,23 @@
+{
+  "name": "PatrickCast",
+  "homepage": "https://github.com/miramo/PatrickCast",
+  "authors": [
+    "Maxime MIRAMOND <maxime.miramond@epitech.eu>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.0",
+    "angular-ui-router": "^0.2.18",
+    "material-design-lite": "^1.1.1"
+  }
+}

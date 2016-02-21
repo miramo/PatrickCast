@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ask'n'Cast</title>
-    <link href="assets/css/app.min.css" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" href="bower_components/material-design-lite/material.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="assets/css/app.min.css">
   </head>
-  <body>
-    <img src="assets/img/AnC-logo.png" width="512px" style="margin: 0 auto;display: block;">
-    <!-- Load all of our scripts -->
-    <script src="game_debugger_script_loader.js"></script>
+  <body ng-app="AskNCast">
+    <header>
+      <img src="assets/img/AnC-logo.png" width="80px" style="margin: 0 auto;display: block;">
+    </header>
+
+    <main class="contrainer">
+      <div ui-view></div>
+    </main>
+
+    <!-- Load all scripts for development builds -->
+    <script src="js/script_loader.js"></script>
   </body>
 </html>

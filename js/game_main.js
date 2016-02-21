@@ -14,7 +14,7 @@
 'use strict';
 
 var game = null;
-
+var appName = 'AskNCast';
 
 /**
  * Main entry point. This is not meant to be compiled so suppressing missing
@@ -24,7 +24,7 @@ var initialize = function() {
   var castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
   var appConfig = new cast.receiver.CastReceiverManager.Config();
 
-  appConfig.statusText = 'AskNCast ready.';
+  appConfig.statusText = appName + ' ready.';
   // In production, use the default maxInactivity instead of using this.
   appConfig.maxInactivity = 6000;
 
@@ -32,7 +32,7 @@ var initialize = function() {
   // cast namespaces can be set up.
   /** @suppress {missingRequire} */
   var gameConfig = new cast.receiver.games.GameManagerConfig();
-  gameConfig.applicationName = 'AskNCast';
+  gameConfig.applicationName = appName;
   // Allow more than the default number of players for this debugger receiver.
   gameConfig.maxPlayers = 10;
   /** @suppress {missingRequire} */
@@ -58,11 +58,4 @@ var initialize = function() {
   };
   castReceiverManager.start(appConfig);
 };
-
-if (document.readyState === 'complete') {
-  initialize();
-} else {
-  /** Main entry point. */
-  window.onload = initialize;
-}
 

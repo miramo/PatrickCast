@@ -1,0 +1,11 @@
+.content-grid
+{
+  max-width: 960px;
+  .mdl-list
+  {
+    .mdl-list__item
+    {
+      color: $text-color;
+    }
+  }
+}
