@@ -29,7 +29,9 @@ app.config(function($mdThemingProvider) {
     //$mdThemingProvider.setDefaultTheme('black');
 
     $mdThemingProvider.theme('default')
-        .primaryPalette('blue-grey')
+        .primaryPalette('grey', {
+            'default': '900',
+        })
         .accentPalette('red')
         .dark();
 });

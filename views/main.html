@@ -1,9 +1,9 @@
 <section class="main" ng-controller="mainController as mainCtrl">
-  <div layout="row" layout-margin>
+  <div layout="row" layout-xs="column" layout-margin>
     <div flex>
       <md-subheader class="md-no-sticky">Leaderboard</md-subheader>
       <md-content class="md-padding" layout-xs="column" layout="row">
-        <div flex layout="column">
+        <div flex-gt-md="60" flex="100" layout="column">
           <md-list ng-cloak="" class="">
             <md-list-item ng-repeat="person in people">
               <img alt="{{ person.name }}" ng-src="{{ person.img }}" class="md-avatar">
