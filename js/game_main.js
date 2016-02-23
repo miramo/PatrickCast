@@ -38,7 +38,7 @@ var initialize = function() {
   /** @suppress {missingRequire} */
   var gameManager = new cast.receiver.games.GameManager(gameConfig);
   /** @suppress {missingRequire} */
-  game = new cast.games.gamedebugger.GameDebuggerGame(gameManager);
+  game = new cast.games.common.receiver.Game(gameManager);
 
   // Note that we will not automatically tear down the debugger if there are no
   // senders to make it easy for playing with the receiver using devtools.

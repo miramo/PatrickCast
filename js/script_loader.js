@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 /**
  * Loads scripts in order and appends timestamp GET parameter to prevent the
  * browser from caching them. This is only meant for development builds, not
@@ -43,9 +44,11 @@ loadScriptsNoCache([
     'https://www.gstatic.com/cast/sdk/libs/games/1.0.0/cast_games_receiver.js',
     'bower_components/angular/angular.min.js',
     'bower_components/angular-ui-router/release/angular-ui-router.min.js',
-    'bower_components/material-design-lite/material.min.js',
+    'bower_components/angular-aria/angular-aria.min.js',
+    'bower_components/angular-animate/angular-animate.min.js',
+    'bower_components/angular-material/angular-material.min.js',
     'js/all-bundle.js',
-    'js/game_debugger.js',
+    'js/game.js',
     'js/game_main.js',
     'js/app.js',
     'js/controllers/mainController.js',

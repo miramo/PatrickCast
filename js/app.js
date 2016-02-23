@@ -3,7 +3,7 @@
  */
 'use strict';
 
-var app = angular.module('AskNCast', ['ui.router']);
+var app = angular.module('AskNCast', ['ui.router', 'ngMaterial']);
 
 var dev = true;
 
@@ -17,6 +17,21 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: 'views/main.html'
         });
 
+});
+
+app.config(function($mdThemingProvider) {
+    //$mdThemingProvider.theme('black')
+    //    .backgroundPalette('grey', {
+    //        'default': '900',
+    //    })
+    //    .dark();
+    //
+    //$mdThemingProvider.setDefaultTheme('black');
+
+    $mdThemingProvider.theme('default')
+        .primaryPalette('blue-grey')
+        .accentPalette('red')
+        .dark();
 });
 
 if (document.readyState === 'complete') {

@@ -24,6 +24,7 @@ var config = {
     jsDest: './assets/js',
     imgPath: './img',
     imgDest: './assets/img',
+    viewsPath: './views',
     configRb: './config.rb'
 }
 
@@ -64,6 +65,13 @@ gulp.task('images', function(cb) {
         .pipe(gulp.dest(config.imgDest));
 });
 
+gulp.task('views', function() {
+    return gulp.src(config.viewsPath + '/**/*')
+        .pipe(plumber(plumberErrorHandler))
+        .on('error', gutil.log)
+        .pipe(livereload());
+});
+
 gulp.task("bower-restore", function () {
     return bower();
 });
@@ -71,6 +79,7 @@ gulp.task("bower-restore", function () {
 gulp.task('watch', function () {
     livereload.listen();
     gulp.watch(config.sassPath + '/**/*', ['compass']);
+    gulp.watch(config.viewsPath + '/**/*', ['views']);
     //gulp.watch(config.jsSrc, ['compress']);
 });
 

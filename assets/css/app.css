@@ -1,13 +1,12 @@
 body {
   margin: 0px;
   overflow: hidden;
-  background-color: #212121;
-  color: #fff !important;
 }
 
-.content-grid {
-  max-width: 960px;
+[ng-cloak] {
+  display: none !important;
 }
-.content-grid .mdl-list .mdl-list__item {
-  color: #fff;
+
+.castReceiverGamesDebugUi {
+  z-index: 99;
 }

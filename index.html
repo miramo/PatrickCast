@@ -4,18 +4,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ask'n'Cast</title>
-    <link rel="stylesheet" href="bower_components/material-design-lite/material.min.css">
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="assets/css/app.min.css">
   </head>
   <body ng-app="AskNCast">
-    <header>
-      <img src="assets/img/AnC-logo.png" width="80px" style="margin: 0 auto;display: block;">
-    </header>
-
-    <main class="contrainer">
-      <div ui-view></div>
-    </main>
+  <div layout="column" layout-fill>
+    <md-toolbar layout="row" layout-align="center center" ng-cloak>
+      <img src="assets/img/AnC-logo.png" style="width:60px;margin:5px;">
+      <span>Ask'n'Cast</span>
+    </md-toolbar>
+    <md-content layout="column" layout-fill>
+      <main class="contrainer">
+        <div ui-view></div>
+      </main>
+    </md-content>
+  </div>
 
     <!-- Load all scripts for development builds -->
     <script src="js/script_loader.js"></script>

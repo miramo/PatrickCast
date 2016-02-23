@@ -1,6 +1,14 @@
 body {
   margin: 0px;
   overflow: hidden;
-  background-color: $body-bg;
-  color: $text-color !important;
+  //background-color: $body-bg;
+  //color: $text-color !important;
+}
+
+[ng-cloak] {
+  display: none !important;
+}
+
+.castReceiverGamesDebugUi {
+  z-index: 99;
 }

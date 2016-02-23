@@ -1,17 +1,20 @@
 <section class="main" ng-controller="mainController as mainCtrl">
-  <div class="content-grid mdl-grid">
-    <div class="mdl-cell mdl-cell--6-col">
-      <div class="mdl-list">
-        <div class="mdl-list__item">
-          <span class="mdl-list__item-primary-content">
-            <i class="material-icons mdl-list__item-avatar">person</i>
-            <span>Patrick</span>
-          </span>
-          <span class="mdl-list__item-secondary-action" href="#">42 pts</span>
+  <div layout="row" layout-margin>
+    <div flex>
+      <md-subheader class="md-no-sticky">Leaderboard</md-subheader>
+      <md-content class="md-padding" layout-xs="column" layout="row">
+        <div flex layout="column">
+          <md-list ng-cloak="" class="">
+            <md-list-item ng-repeat="person in people">
+              <img alt="{{ person.name }}" ng-src="{{ person.img }}" class="md-avatar">
+              <p>{{ person.name }}</p>
+              <div class="md-secondary">42 pts</div>
+            </md-list-item>
+          </md-list>
         </div>
-      </div>
+      </md-content>
     </div>
-    <div class="mdl-cell mdl-cell--6-col">
+    <div flex>
 
     </div>
   </div>
