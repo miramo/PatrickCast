@@ -1,0 +1,21 @@
+<section class="main" ng-controller="mainController as mainCtrl">
+  <div layout="row" layout-xs="column" layout-margin>
+    <div flex>
+      <md-subheader class="md-no-sticky">Leaderboard</md-subheader>
+      <md-content class="md-padding" layout-xs="column" layout="row">
+        <div flex-gt-md="60" flex="100" layout="column">
+          <md-list ng-cloak="" class="">
+            <md-list-item ng-repeat="player in players">
+              <img alt="{{ player.playerId }}" ng-src="{{ person.playerId }}" class="md-avatar">
+              <p>{{ player.playerId }}</p>
+              <div class="md-secondary">42 pts</div>
+            </md-list-item>
+          </md-list>
+        </div>
+      </md-content>
+    </div>
+    <div flex>
+
+    </div>
+  </div>
+</section>

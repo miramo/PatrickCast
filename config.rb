@@ -7,8 +7,8 @@ add_import_path "scss/libs"
 # Set this to the root of your project when deployed:
 http_path = "/"
 css_dir = "assets/css"
-sass_dir = "scss"
-scss_dir = 'scss'
+sass_dir = "src/scss"
+scss_dir = 'src/scss'
 images_dir = "assets/img"
 javascripts_dir = "js"
 

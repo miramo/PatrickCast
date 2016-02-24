@@ -11,20 +11,24 @@ var notify = require('gulp-notify');
 var livereload = require('gulp-livereload');
 var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
+var minifyHtml = require("gulp-minify-html");
 var fs = require('fs');
 
 var config = {
-    sassPath: './scss',
+    sassPath: './src/scss',
     cssDest: './assets/css',
     bowerDir: './bower_components',
     jsSrc: [
 
     ],
-    jsPath: './js',
+    jsPath: './src/js',
     jsDest: './assets/js',
-    imgPath: './img',
+    imgPath: './src/img',
     imgDest: './assets/img',
-    viewsPath: './views',
+    viewsPath: './src/views',
+    viewsDest: './views',
+    indexPath: './src/index.html',
+    indexDest: './',
     configRb: './config.rb'
 }
 
@@ -36,13 +40,13 @@ var plumberErrorHandler = {
 };
 
 gulp.task('compass', function() {
-    return gulp.src(config.sassPath + '/**/*')
+    return gulp.src(config.sassPath + '/app.scss')
         .pipe(plumber(plumberErrorHandler))
         .pipe(compass({
             config_file: config.configRb,
             css: 'assets/css',
-            sass: 'scss',
-            scss: 'scss',
+            sass: 'src/scss',
+            scss: 'src/scss',
             image: 'assets/img'
         }))
         .pipe(gulp.dest(config.cssDest))
@@ -54,7 +58,7 @@ gulp.task('compass', function() {
         .pipe(notify({ message: 'Compass task complete' }));
 });
 
-gulp.task('images', function(cb) {
+gulp.task('copy:imgs', function(cb) {
     return gulp.src(config.imgPath + '/**/*')
         .pipe(imagemin({
             progressive: true,
@@ -65,12 +69,21 @@ gulp.task('images', function(cb) {
         .pipe(gulp.dest(config.imgDest));
 });
 
-gulp.task('views', function() {
+gulp.task('copy:views', function() {
     return gulp.src(config.viewsPath + '/**/*')
-        .pipe(plumber(plumberErrorHandler))
-        .on('error', gutil.log)
+        .pipe(minifyHtml({ empty: true }))
+        .pipe(gulp.dest(config.viewsDest))
         .pipe(livereload());
 });
+
+gulp.task('copy:index', function() {
+    return gulp.src(config.indexPath)
+        .pipe(minifyHtml({ empty: true }))
+        .pipe(gulp.dest(config.indexDest))
+        .pipe(livereload())
+        .pipe(notify({ message: 'Index task complete' }));
+});
+gulp.task("copy", ["copy:imgs", "copy:views", "copy:index"]);
 
 gulp.task("bower-restore", function () {
     return bower();
@@ -79,8 +92,9 @@ gulp.task("bower-restore", function () {
 gulp.task('watch', function () {
     livereload.listen();
     gulp.watch(config.sassPath + '/**/*', ['compass']);
-    gulp.watch(config.viewsPath + '/**/*', ['views']);
+    gulp.watch(config.viewsPath + '/**/*', ['copy:views']);
+    gulp.watch(config.indexPath, ['copy:index']);
     //gulp.watch(config.jsSrc, ['compress']);
 });
 
-gulp.task("default", ["compass", "compress"]);
+gulp.task("default", ["copy", "compass", "compress"]);

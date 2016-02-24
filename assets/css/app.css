@@ -10,3 +10,8 @@ body {
 .castReceiverGamesDebugUi {
   z-index: 99;
 }
+
+md-toolbar #topbar-logo {
+  width: 60px;
+  padding: 5px;
+}
