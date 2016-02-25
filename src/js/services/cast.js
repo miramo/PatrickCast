@@ -8,11 +8,15 @@ angular.module('AskNCast.services', []).service('cast',function Cast($window, $r
     this.game = null;
     this.appName = 'AskNCast';
     var service = this;
+    var castReceiverManager;
 
+    this.SENDER_CONNECTED = "sender-connected";
+    this.SENDER_DISCONNECTED = "sender-disconnected";
     this.PLAYER_AVAILABLE = "player-available";
+    this.GAME_MESSAGE_RECEIVED = "game-message-received";
 
     var initializeCast = function () {
-        var castReceiverManager = $window.cast.receiver.CastReceiverManager.getInstance();
+        castReceiverManager = $window.cast.receiver.CastReceiverManager.getInstance();
         var appConfig = new $window.cast.receiver.CastReceiverManager.Config();
 
         appConfig.statusText = service.appName + ' ready.';
@@ -40,11 +44,30 @@ angular.module('AskNCast.services', []).service('cast',function Cast($window, $r
             });
         };
 
+        castReceiverManager.onSenderConnected = function (event) {
+            $rootScope.$apply(function () {
+                $rootScope.$broadcast(service.SENDER_CONNECTED, event);
+            });
+        };
+        castReceiverManager.onSenderDisconnected = function (event) {
+            $rootScope.$apply(function () {
+                $rootScope.$broadcast(service.SENDER_DISCONNECTED, event);
+            });
+        };
+
         gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE,
             function(event) {
                 //console.log('Player ' + event.playerInfo.playerId + ' is available');
                 $rootScope.$apply(function () {
                     $rootScope.$broadcast(service.PLAYER_AVAILABLE, event);
+                });
+            });
+
+        gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED,
+            function(event) {
+                //console.log(event);
+                $rootScope.$apply(function () {
+                    $rootScope.$broadcast(service.GAME_MESSAGE_RECEIVED, event);
                 });
             });
 
@@ -61,6 +84,10 @@ angular.module('AskNCast.services', []).service('cast',function Cast($window, $r
         } else {
             $window.onload = initializeCast;
         }
+    };
+
+    this.finish = function () {
+        castReceiverManager.stop();
     };
 }).
 run(function (cast) {
