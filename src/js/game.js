@@ -1,14 +1,13 @@
+/**
+ * Created by KOALA on 25/02/2016.
+ */
+
 Game = function (GameManager)
 {
     this.gameManager_ = GameManager;
 
     if (dev)
         this.debugUi = new cast.receiver.games.debug.DebugUI(GameManager);
-
-    var listener = new Listener();
-    this.gameManager_.addGameManagerListener(listener);
-
-    this.players_ = [];
 };
 
 Game.prototype.run = function (loadedCallback)

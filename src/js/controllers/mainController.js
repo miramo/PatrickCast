@@ -3,12 +3,14 @@
  */
 'use strict';
 
-app.controller('mainController', ['$scope', '$window', function ($scope, $window) {
+app.controller('mainController', function ($scope, $log, cast) {
 
-    //$scope.people = [
-    //    { name: 'piouff', img: 'https://api.adorable.io/avatars/50/:0.png' },
-    //    { name: 'edmond', img: 'https://api.adorable.io/avatars/50/:2.png' },
-    //    { name: 'miramo', img: 'https://api.adorable.io/avatars/50/:4.png' }
-    //];
+    $scope.players = [];
 
-}]);
+    $scope.$on(cast.PLAYER_AVAILABLE, function (ev, castEvent) {
+        $scope.players.push(castEvent.playerInfo);
+        cast.game.gameManager_.updatePlayerData(castEvent.playerInfo.playerId, {name: castEvent.requestExtraMessageData.name, score: 0, avatar: 'https://api.adorable.io/avatars/50/'+castEvent.playerInfo.playerId+'.png'});
+        $log.info(castEvent);
+    });
+
+});

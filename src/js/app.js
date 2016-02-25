@@ -3,7 +3,7 @@
  */
 'use strict';
 
-var app = angular.module('AskNCast', ['ui.router', 'ngMaterial']);
+var app = angular.module('AskNCast', ['AskNCast.services', 'ui.router', 'ngMaterial']);
 
 var dev = true;
 
@@ -14,7 +14,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('home', {
             url: '/',
-            templateUrl: 'views/main.html'
+            templateUrl: 'views/leaderboard.html'
         });
 
 });
@@ -35,10 +35,3 @@ app.config(function($mdThemingProvider) {
         .accentPalette('red')
         .dark();
 });
-
-if (document.readyState === 'complete') {
-    initialize();
-} else {
-    /** Main entry point. */
-    window.onload = initialize;
-}

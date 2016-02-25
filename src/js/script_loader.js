@@ -47,9 +47,11 @@ loadScriptsNoCache([
     'bower_components/angular-aria/angular-aria.min.js',
     'bower_components/angular-animate/angular-animate.min.js',
     'bower_components/angular-material/angular-material.min.js',
-    'src/js/game_main.js',
+    //'src/js/game_main.js',
     'src/js/gameListener.js',
     'src/js/game.js',
+    'src/js/services/cast.js',
     'src/js/app.js',
     'src/js/controllers/mainController.js',
+    'src/js/controllers/homeController.js',
 ]);
