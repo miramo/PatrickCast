@@ -58,7 +58,7 @@ gulp.task("min:js", function () {
         .pipe(plumber(plumberErrorHandler))
         .pipe(ngAnnotate())
         .pipe(concat(config.jsDest))
-        .pipe(uglify())
+        //.pipe(uglify())
         .pipe(gulp.dest("."))
         .pipe(livereload())
         .pipe(notify({ message: 'Compress js task complete' }));

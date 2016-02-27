@@ -18,12 +18,12 @@ app.controller('mainController', function ($scope, $log, $window, $timeout, $sta
     //    {
     //        playerData: { avatar: avatarUrlBase+":0.png", name: "test1", score: 0, },
     //        playerId: ":0",
-    //        playerState: $scope.window.cast.receiver.games.PlayerState.AVAILABLE,
+    //        playerState: 6,
     //    },
     //    {
     //        playerData: { avatar: avatarUrlBase+":2.png", name: "test2", score: 0, },
     //        playerId: ":2",
-    //        playerState: $scope.window.cast.receiver.games.PlayerState.AVAILABLE,
+    //        playerState: 6,
     //    },
     //];
 
@@ -46,10 +46,28 @@ app.controller('mainController', function ($scope, $log, $window, $timeout, $sta
         questioner_avatar: '',
         skip_avail: false,
     };
+    //$scope.gameData = {
+    //    phase: eGamePhase.VOTING,
+    //    question: 'Tu suces pour un Mars ?',
+    //    questioner: 'test1',
+    //    questioner_id: ':0',
+    //    questioner_avatar: avatarUrlBase+":0.png",
+    //    skip_avail: false,
+    //};
+
+    $scope.votes = {};
 
     var idleTimeout = function () {
         if ($scope.connected == 0) {
             cast.finish();
+        }
+    };
+
+    var calculateVotes = function (votes) {
+        if (!_.isEmpty(votes) && _.size(votes) == _.size(cast.game.gameManager_.getPlayersInState($window.cast.receiver.games.PlayerState.PLAYING))) {
+            cast.game.calculateVotes(votes, $scope.players, $scope.gameData, eGamePhase);
+            cast.game.chooseRandomQuestioner($scope.gameData, eGamePhase);
+            $scope.votes = {};
         }
     };
 
@@ -89,18 +107,24 @@ app.controller('mainController', function ($scope, $log, $window, $timeout, $sta
         $scope.players.push(castEvent.playerInfo);
         cast.game.gameManager_.updatePlayerData(castEvent.playerInfo.playerId, {name: castEvent.requestExtraMessageData.name, score: 0, avatar: avatarUrlBase+castEvent.playerInfo.playerId+'.png'});
         if ($scope.gameData.phase == null && $scope.players.length == 1) {
-            cast.game.chooseRandomQuestioner($scope.players, $scope.gameData, eGamePhase);
+            cast.game.chooseRandomQuestioner($scope.gameData, eGamePhase);
         }
     });
 
     $scope.$on(cast.PLAYER_QUIT, function (ev, castEvent) {
         if (dev)
             $log.debug(castEvent);
+        if ($scope.gameData.phase == eGamePhase.VOTING) {
+            calculateVotes($scope.votes);
+        }
     });
 
     $scope.$on(cast.PLAYER_DROPPED, function (ev, castEvent) {
         if (dev)
             $log.debug(castEvent);
+        if ($scope.gameData.phase == eGamePhase.VOTING) {
+            calculateVotes($scope.votes);
+        }
     });
 
     $scope.$on(cast.GAME_MESSAGE_RECEIVED, function (ev, castEvent) {
@@ -116,8 +140,8 @@ app.controller('mainController', function ($scope, $log, $window, $timeout, $sta
                     cast.game.setQuestion(castEvent.requestExtraMessageData.question, $scope.gameData, eGamePhase);
                 break;
             case eGameMessageType.VOTE:
-                if ($scope.gameData == eGamePhase.VOTING) {
-
+                if ($scope.gameData.phase == eGamePhase.VOTING) {
+                    cast.game.addVote($scope.votes, castEvent.playerInfo.playerId, castEvent.requestExtraMessageData.vote, castEvent.requestExtraMessageData.prognosis);
                 }
                 break;
             case eGameMessageType.SKIP:
@@ -143,6 +167,11 @@ app.controller('mainController', function ($scope, $log, $window, $timeout, $sta
             default:
                 break;
         }
+    });
+
+    $scope.$watchCollection("votes", function (newValue, oldValue) {
+        if ($scope.gameData.phase == eGamePhase.VOTING)
+            calculateVotes(newValue);
     });
 
 });
