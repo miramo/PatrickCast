@@ -12,9 +12,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
-        .state('home', {
-            url: '/',
+        .state('leaderboard', {
             templateUrl: 'views/leaderboard.html'
+        })
+        .state('question', {
+            templateUrl: 'views/question.html'
         });
 
 });

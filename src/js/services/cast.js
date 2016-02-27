@@ -13,6 +13,8 @@ angular.module('AskNCast.services', []).service('cast',function Cast($window, $r
     this.SENDER_CONNECTED = "sender-connected";
     this.SENDER_DISCONNECTED = "sender-disconnected";
     this.PLAYER_AVAILABLE = "player-available";
+    this.PLAYER_QUIT = "player-quit";
+    this.PLAYER_DROPPED = "player-dropped";
     this.GAME_MESSAGE_RECEIVED = "game-message-received";
 
     var initializeCast = function () {
@@ -60,6 +62,20 @@ angular.module('AskNCast.services', []).service('cast',function Cast($window, $r
                 //console.log('Player ' + event.playerInfo.playerId + ' is available');
                 $rootScope.$apply(function () {
                     $rootScope.$broadcast(service.PLAYER_AVAILABLE, event);
+                });
+            });
+
+        gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_QUIT,
+            function(event) {
+                $rootScope.$apply(function () {
+                    $rootScope.$broadcast(service.PLAYER_QUIT, event);
+                });
+            });
+
+        gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_DROPPED,
+            function(event) {
+                $rootScope.$apply(function () {
+                    $rootScope.$broadcast(service.PLAYER_DROPPED, event);
                 });
             });
 

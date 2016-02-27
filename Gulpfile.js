@@ -12,17 +12,23 @@ var livereload = require('gulp-livereload');
 var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
 var minifyHtml = require("gulp-minify-html");
+var ngAnnotate = require('gulp-ng-annotate');
 var fs = require('fs');
 
 var config = {
     sassPath: './src/scss',
     cssDest: './assets/css',
-    bowerDir: './bower_components',
-    jsSrc: [
-
+    jsBowerPath: [
+        './bower_components/angular/angular.min.js',
+        './bower_components/angular-ui-router/release/angular-ui-router.min.js',
+        './bower_components/angular-aria/angular-aria.min.js',
+        './bower_components/angular-animate/angular-animate.min.js',
+        './bower_components/angular-material/angular-material.min.js',
+        './bower_components/underscore/underscore-min.js',
     ],
-    jsPath: './src/js',
-    jsDest: './assets/js',
+    jsBowerDest: './assets/js/bower-final.min.js',
+    jsPath: './src/js/**/*.js',
+    jsDest: './assets/js/anc-final.min.js',
     imgPath: './src/img',
     imgDest: './assets/img',
     viewsPath: './src/views',
@@ -38,6 +44,26 @@ var plumberErrorHandler = {
         this.emit('end');
     }
 };
+
+gulp.task("min:jsBower", function () {
+    return gulp.src(config.jsBowerPath)
+        .pipe(plumber(plumberErrorHandler))
+        .pipe(concat(config.jsBowerDest))
+        .pipe(uglify())
+        .pipe(gulp.dest("."))
+        .pipe(notify({ message: 'Compress jsBower task complete' }));
+});
+gulp.task("min:js", function () {
+    return gulp.src(config.jsPath)
+        .pipe(plumber(plumberErrorHandler))
+        .pipe(ngAnnotate())
+        .pipe(concat(config.jsDest))
+        .pipe(uglify())
+        .pipe(gulp.dest("."))
+        .pipe(livereload())
+        .pipe(notify({ message: 'Compress js task complete' }));
+});
+gulp.task("min", ["min:js", "min:jsBower"]);
 
 gulp.task('compass', function() {
     return gulp.src(config.sassPath + '/app.scss')
@@ -94,7 +120,8 @@ gulp.task('watch', function () {
     gulp.watch(config.sassPath + '/**/*', ['compass']);
     gulp.watch(config.viewsPath + '/**/*', ['copy:views']);
     gulp.watch(config.indexPath, ['copy:index']);
+    gulp.watch(config.jsPath, ['min:js']);
     //gulp.watch(config.jsSrc, ['compress']);
 });
 
-gulp.task("default", ["copy", "compass", "compress"]);
+gulp.task("default", ["copy", "compass", "min"]);

@@ -3,7 +3,7 @@
  */
 'use strict';
 
-app.controller('mainController', function ($scope, $log, $window, $timeout, cast) {
+app.controller('mainController', function ($scope, $log, $window, $timeout, $state, cast) {
 
     $scope.window = $window;
     $scope.connected = 0;
@@ -43,6 +43,7 @@ app.controller('mainController', function ($scope, $log, $window, $timeout, cast
         question: '',
         questioner: '',
         questioner_id: '',
+        questioner_avatar: '',
         skip_avail: false,
     };
 
@@ -92,6 +93,16 @@ app.controller('mainController', function ($scope, $log, $window, $timeout, cast
         }
     });
 
+    $scope.$on(cast.PLAYER_QUIT, function (ev, castEvent) {
+        if (dev)
+            $log.debug(castEvent);
+    });
+
+    $scope.$on(cast.PLAYER_DROPPED, function (ev, castEvent) {
+        if (dev)
+            $log.debug(castEvent);
+    });
+
     $scope.$on(cast.GAME_MESSAGE_RECEIVED, function (ev, castEvent) {
         if (dev)
             $log.debug(castEvent);
@@ -101,13 +112,33 @@ app.controller('mainController', function ($scope, $log, $window, $timeout, cast
                     cast.game.setDebugUi(castEvent.requestExtraMessageData.toggle);
                 break;
             case eGameMessageType.QUESTION:
-
+                if ($scope.gameData.phase == eGamePhase.CHOOSING && $scope.gameData.questioner_id == castEvent.playerInfo.playerId)
+                    cast.game.setQuestion(castEvent.requestExtraMessageData.question, $scope.gameData, eGamePhase);
                 break;
             case eGameMessageType.VOTE:
+                if ($scope.gameData == eGamePhase.VOTING) {
 
+                }
                 break;
             case eGameMessageType.SKIP:
+                if ($scope.gameData.skip_avail) {
 
+                }
+                break;
+            default:
+                break;
+        }
+    });
+
+    $scope.$watch("gameData.phase", function (newValue, oldValue) {
+        switch (newValue) {
+            case null:
+                break;
+            case eGamePhase.CHOOSING:
+                $state.go('leaderboard');
+                break;
+            case eGamePhase.VOTING:
+                $state.go('question');
                 break;
             default:
                 break;

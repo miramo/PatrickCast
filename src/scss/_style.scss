@@ -9,7 +9,22 @@ body {
   display: none !important;
 }
 
+.center-text {
+  text-align: center;
+}
+
 .castReceiverGamesDebugUi {
   z-index: 99;
 }
 
+main {
+  height: 100%;
+}
+
+#ui-view-wrapper {
+  height: 100%;
+
+  section {
+    height: 100%;
+  }
+}

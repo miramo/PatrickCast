@@ -42,15 +42,4 @@ loadScriptsNoCache([
     // Make sure cast receiver SDK is loaded before games receiver SDK.
     'https:///www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js',
     'https://www.gstatic.com/cast/sdk/libs/games/1.0.0/cast_games_receiver.js',
-    'bower_components/angular/angular.min.js',
-    'bower_components/angular-ui-router/release/angular-ui-router.min.js',
-    'bower_components/angular-aria/angular-aria.min.js',
-    'bower_components/angular-animate/angular-animate.min.js',
-    'bower_components/angular-material/angular-material.min.js',
-    'bower_components/underscore/underscore-min.js',
-    'src/js/game.js',
-    'src/js/services/cast.js',
-    'src/js/app.js',
-    'src/js/controllers/mainController.js',
-    'src/js/controllers/homeController.js',
 ]);
