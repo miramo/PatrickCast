@@ -1,7 +1,7 @@
 <section class="leaderboard" ng-controller="leaderboardController as leaderboardCtrl">
   <div layout="row" layout-xs="column" layout-margin layout-fill>
     <div flex>
-      <md-subheader class="md-no-sticky">Leaderboard</md-subheader>
+      <!--<md-subheader class="md-no-sticky">Leaderboard</md-subheader>-->
       <md-content class="md-padding" layout-xs="column" layout="row">
         <div flex-gt-md="60" flex="100" layout="column">
           <md-list ng-cloak="" class="">
@@ -14,8 +14,31 @@
         </div>
       </md-content>
     </div>
-    <div flex>
-
+    <div flex layout="column">
+      <!--<md-subheader class="md-no-sticky">Last questions</md-subheader>-->
+      <div flex>
+        <div class="chart-wrapper" ng-if="datas[datas.length - 1]">
+          <canvas class="chart chart-pie" chart-data="datas[datas.length - 1]" chart-labels="labels">
+          </canvas>
+          <p class="center-text">{{datasQuestions[datas.length - 1]}}</p>
+        </div>
+      </div>
+      <div flex layout="row">
+        <div flex>
+          <div class="chart-wrapper" ng-if="datas[datas.length - 2]">
+            <canvas class="chart chart-pie" chart-data="datas[datas.length - 2]" chart-labels="labels">
+            </canvas>
+            <p class="center-text">{{datasQuestions[datas.length - 2]}}</p>
+          </div>
+        </div>
+        <div flex>
+          <div class="chart-wrapper" ng-if="datas[datas.length - 3]">
+            <canvas class="chart chart-pie" chart-data="datas[datas.length - 3]" chart-labels="labels">
+            </canvas>
+            <p class="center-text">{{datasQuestions[datas.length - 3]}}</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

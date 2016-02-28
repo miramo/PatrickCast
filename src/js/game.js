@@ -117,6 +117,7 @@ Game.prototype.calculateVotes = function (votes, players, gameData, eGamePhase) 
     gameData.phase = eGamePhase.CHOOSING;
     gameData.skip_avail = false;
     this.setGameData(gameData);
+    return numberOfYes;
 };
 Game.prototype.getNumberOfYes = function (votes) {
     var yes = 0;

@@ -85,6 +85,13 @@ app.controller('mainController', function ($scope, $log, $window, $timeout, $sta
     //    ":10": { vote: "yes", prognosis: "4" },
     //};
 
+    $scope.lastQuestions = [];
+    //$scope.lastQuestions = [
+    //    {question: "question1?", yes: 2, no: 1},
+    //    {question: "question2?", yes: 1, no: 2},
+    //    {question: "question3?", yes: 1, no: 1},
+    //];
+
     var idleTimeout = function () {
         if ($scope.connected == 0) {
             cast.finish();
@@ -93,7 +100,9 @@ app.controller('mainController', function ($scope, $log, $window, $timeout, $sta
 
     var calculateVotes = function (votes) {
         if (!_.isEmpty(votes) && _.size(votes) == _.size(cast.game.gameManager_.getPlayersInState($window.cast.receiver.games.PlayerState.PLAYING))) {
-            cast.game.calculateVotes(votes, $scope.players, $scope.gameData, eGamePhase);
+            var numberOfYes = cast.game.calculateVotes(votes, $scope.players, $scope.gameData, eGamePhase);
+            var numberOfNo = _.size(cast.game.gameManager_.getPlayersInState($window.cast.receiver.games.PlayerState.PLAYING)) - numberOfYes;
+            $scope.lastQuestions.push({question: $scope.gameData.question, yes: numberOfYes, no: numberOfNo});
             cast.game.chooseRandomQuestioner($scope.gameData, eGamePhase);
             $scope.votes = {};
         }

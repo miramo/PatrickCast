@@ -3,7 +3,7 @@
  */
 'use strict';
 
-var app = angular.module('AskNCast', ['AskNCast.services', 'ui.router', 'ngMaterial']);
+var app = angular.module('AskNCast', ['AskNCast.services', 'ui.router', 'ngMaterial', 'chart.js']);
 
 var dev = true;
 
@@ -36,4 +36,16 @@ app.config(function($mdThemingProvider) {
         })
         .accentPalette('red')
         .dark();
+});
+
+app.config(function (ChartJsProvider) {
+    // Configure all charts
+    ChartJsProvider.setOptions({
+        colours: ['#66BB6A', '#EF5350'],
+        responsive: true
+    });
+    // Configure all doughnut charts
+    ChartJsProvider.setOptions('Doughnut', {
+        animateScale: false
+    });
 });

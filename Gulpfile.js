@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var compass  = require('gulp-compass');
 var plumber = require('gulp-plumber');
 var rename = require('gulp-rename');
-var minifycss = require('gulp-minify-css');
+var cleanCSS = require('gulp-clean-css');
 var gutil = require('gulp-util');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
@@ -22,6 +22,11 @@ var compressing = false;
 var config = {
     sassPath: './src/scss',
     cssDest: './assets/css',
+    styleBowerPath: [
+        './bower_components/angular-material/angular-material.min.css',
+        './bower_components/angular-chart.js/dist/angular-chart.min.css',
+    ],
+    styleBowerDest: './assets/css/bower-final.min.css',
     jsBowerPath: [
         './bower_components/angular/angular.min.js',
         './bower_components/angular-ui-router/release/angular-ui-router.min.js',
@@ -29,6 +34,8 @@ var config = {
         './bower_components/angular-animate/angular-animate.min.js',
         './bower_components/angular-material/angular-material.min.js',
         './bower_components/underscore/underscore-min.js',
+        './bower_components/Chart.js/Chart.min.js',
+        './bower_components/angular-chart.js/dist/angular-chart.min.js',
     ],
     jsBowerDest: './assets/js/bower-final.min.js',
     jsPath: './src/js/**/*.js',
@@ -53,7 +60,7 @@ gulp.task("min:jsBower", function () {
     return gulp.src(config.jsBowerPath)
         .pipe(plumber(plumberErrorHandler))
         .pipe(concat(config.jsBowerDest))
-        .pipe(uglify())
+        //.pipe(uglify())
         .pipe(gulp.dest("."))
         .pipe(notify({ message: 'Compress jsBower task complete' }));
 });
@@ -70,7 +77,7 @@ gulp.task("min:js", function () {
 });
 gulp.task("min", ["min:js", "min:jsBower"]);
 
-gulp.task('compass', function() {
+gulp.task('style:compass', function() {
     return gulp.src(config.sassPath + '/app.scss')
         .pipe(plumber(plumberErrorHandler))
         .pipe(compass({
@@ -83,11 +90,20 @@ gulp.task('compass', function() {
         .pipe(gulp.dest(config.cssDest))
         .on('error', gutil.log)
         .pipe(rename({suffix: '.min'}))
-        .pipe(minifycss({processImport: false}))
+        .pipe(gulpif(compressing, cleanCSS({compatibility: 'ie8'})))
         .pipe(gulp.dest(config.cssDest))
         .pipe(livereload())
         .pipe(notify({ message: 'Compass task complete' }));
 });
+gulp.task('style:bower', function() {
+    return gulp.src(config.styleBowerPath)
+        .pipe(plumber(plumberErrorHandler))
+        .pipe(concat(config.styleBowerDest))
+        .pipe(cleanCSS({compatibility: 'ie8'}))
+        .pipe(gulp.dest("."))
+        .pipe(notify({ message: 'Style Bower task complete' }));
+});
+gulp.task("style", ["style:compass", "style:bower"]);
 
 gulp.task('copy:imgs', function(cb) {
     return gulp.src(config.imgPath + '/**/*')
@@ -129,4 +145,4 @@ gulp.task('watch', function () {
     //gulp.watch(config.jsSrc, ['compress']);
 });
 
-gulp.task("default", ["copy", "compass", "min"]);
+gulp.task("default", ["copy", "style", "min"]);
