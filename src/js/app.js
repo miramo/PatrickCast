@@ -15,6 +15,9 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         .state('leaderboard', {
             templateUrl: 'views/leaderboard.html'
         })
+        .state('results', {
+            templateUrl: 'views/results.html'
+        })
         .state('question', {
             templateUrl: 'views/question.html'
         });

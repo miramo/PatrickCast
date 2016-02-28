@@ -16,32 +16,32 @@ app.controller('mainController', function ($scope, $log, $window, $timeout, $sta
     $scope.players = [];
     //$scope.players = [
     //    {
-    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:0.png', name: "test1", score: 0, },
+    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:0.png', name: "test1", score: 0, lastPointsWon: 2 },
     //        playerId: ":0",
     //        playerState: 6,
     //    },
     //    {
-    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:2.png', name: "test2", score: 0, },
+    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:2.png', name: "test2", score: 0, lastPointsWon: 0 },
     //        playerId: ":2",
     //        playerState: 6,
     //    },
     //    {
-    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:4.png', name: "test3", score: 0, },
+    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:4.png', name: "test3", score: 0, lastPointsWon: 0 },
     //        playerId: ":4",
     //        playerState: 6,
     //    },
     //    {
-    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:6.png', name: "test4", score: 0, },
+    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:6.png', name: "test4", score: 0, lastPointsWon: 0 },
     //        playerId: ":6",
     //        playerState: 6,
     //    },
     //    {
-    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:8.png', name: "test5", score: 0, },
+    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:8.png', name: "test5", score: 0, lastPointsWon: 0 },
     //        playerId: ":8",
     //        playerState: 6,
     //    },
     //    {
-    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:10.png', name: "test6", score: 0, },
+    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:10.png', name: "test6", score: 0, lastPointsWon: 0 },
     //        playerId: ":10",
     //        playerState: 6,
     //    },
@@ -103,9 +103,13 @@ app.controller('mainController', function ($scope, $log, $window, $timeout, $sta
             var numberOfYes = cast.game.calculateVotes(votes, $scope.players, $scope.gameData, eGamePhase);
             var numberOfNo = _.size(cast.game.gameManager_.getPlayersInState($window.cast.receiver.games.PlayerState.PLAYING)) - numberOfYes;
             $scope.lastQuestions.push({question: $scope.gameData.question, yes: numberOfYes, no: numberOfNo});
-            cast.game.chooseRandomQuestioner($scope.gameData, eGamePhase);
+            $state.go('results');
             $scope.votes = {};
         }
+    };
+
+    $scope.geteGamePhase = function () {
+        return eGamePhase;
     };
 
     $scope.$on(cast.SENDER_CONNECTED, function (ev, castEvent) {

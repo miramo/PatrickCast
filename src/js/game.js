@@ -98,8 +98,11 @@ Game.prototype.calculateVotes = function (votes, players, gameData, eGamePhase) 
     if (winnersId.length > 0) {
         angular.forEach(winnersId, function(winnerId) {
             angular.forEach(players, function(player) {
-                if (player.playerId == winnerId)
+                player.playerData.lastPointsWon = 0;
+                if (player.playerId == winnerId) {
                     player.playerData.score += winnerPts;
+                    player.playerData.lastPointsWon = winnerPts;
+                }
             });
         });
     }
@@ -108,13 +111,16 @@ Game.prototype.calculateVotes = function (votes, players, gameData, eGamePhase) 
         var closersId = this.getClosersId(votes, numberOfYes);
         angular.forEach(closersId, function(closerId) {
             angular.forEach(players, function(player) {
-                if (player.playerId == closerId)
+                player.playerData.lastPointsWon = 0;
+                if (player.playerId == closerId) {
                     player.playerData.score += closerPts;
+                    player.playerData.lastPointsWon = closerPts;
+                }
             });
         });
     }
 
-    gameData.phase = eGamePhase.CHOOSING;
+    //gameData.phase = eGamePhase.CHOOSING;
     gameData.skip_avail = false;
     this.setGameData(gameData);
     return numberOfYes;
