@@ -11,6 +11,27 @@ body {
   text-align: center;
 }
 
+ul.list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+
+ul.list-inline {
+  padding-left: 0;
+  margin-left: -5px;
+  list-style: none;
+}
+ul.list-inline > li {
+  display: inline-block;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+img.desaturate {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+
 .castReceiverGamesDebugUi {
   z-index: 99;
 }
@@ -29,4 +50,26 @@ main {
 md-toolbar #topbar-logo {
   width: 60px;
   padding: 5px;
+}
+
+.question #avatars-wrapper ul li .avatar-wrapper {
+  position: relative;
+}
+.question #avatars-wrapper ul li .avatar-wrapper .avatar {
+  width: 40px;
+  height: 40px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  margin-right: 16px;
+  border-radius: 50%;
+  box-sizing: content-box;
+}
+.question #avatars-wrapper ul li .avatar-wrapper .badge {
+  position: absolute;
+  right: 2px;
+  top: 0px;
+  z-index: 1000;
+  padding: 5px;
+  font-weight: bold;
+  color: #4CAF50;
 }

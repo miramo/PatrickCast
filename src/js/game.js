@@ -55,7 +55,6 @@ Game.prototype.calculateVotes = function (votes, players, gameData, eGamePhase) 
     //    ":8": { vote: "yes", prognosis: "4" },
     //    ":10": { vote: "yes", prognosis: "4" },
     //};
-    //
 
     //players = [
     //    {
@@ -95,6 +94,7 @@ Game.prototype.calculateVotes = function (votes, players, gameData, eGamePhase) 
     var numberOfYes = this.getNumberOfYes(votes);
     var winnersId = this.getWinnersId(votes, numberOfYes);
 
+    //If someone found the right prognosis, he earns 2 points
     if (winnersId.length > 0) {
         angular.forEach(winnersId, function(winnerId) {
             angular.forEach(players, function(player) {
@@ -103,6 +103,7 @@ Game.prototype.calculateVotes = function (votes, players, gameData, eGamePhase) 
             });
         });
     }
+    //If no ones found the right prongnosis, the closest earn 1 point
     else {
         var closersId = this.getClosersId(votes, numberOfYes);
         angular.forEach(closersId, function(closerId) {
@@ -112,7 +113,6 @@ Game.prototype.calculateVotes = function (votes, players, gameData, eGamePhase) 
             });
         });
     }
-    console.log(players);
 
     gameData.phase = eGamePhase.CHOOSING;
     gameData.skip_avail = false;

@@ -16,13 +16,33 @@ app.controller('mainController', function ($scope, $log, $window, $timeout, $sta
     $scope.players = [];
     //$scope.players = [
     //    {
-    //        playerData: { avatar: avatarUrlBase+":0.png", name: "test1", score: 0, },
+    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:0.png', name: "test1", score: 0, },
     //        playerId: ":0",
     //        playerState: 6,
     //    },
     //    {
-    //        playerData: { avatar: avatarUrlBase+":2.png", name: "test2", score: 0, },
+    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:2.png', name: "test2", score: 0, },
     //        playerId: ":2",
+    //        playerState: 6,
+    //    },
+    //    {
+    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:4.png', name: "test3", score: 0, },
+    //        playerId: ":4",
+    //        playerState: 6,
+    //    },
+    //    {
+    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:6.png', name: "test4", score: 0, },
+    //        playerId: ":6",
+    //        playerState: 6,
+    //    },
+    //    {
+    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:8.png', name: "test5", score: 0, },
+    //        playerId: ":8",
+    //        playerState: 6,
+    //    },
+    //    {
+    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:10.png', name: "test6", score: 0, },
+    //        playerId: ":10",
     //        playerState: 6,
     //    },
     //];
@@ -39,7 +59,7 @@ app.controller('mainController', function ($scope, $log, $window, $timeout, $sta
         VOTING: 'voting',
     };
     $scope.gameData = {
-        phase: null,
+        phase: eGamePhase.CHOOSING,
         question: '',
         questioner: '',
         questioner_id: '',
@@ -56,6 +76,14 @@ app.controller('mainController', function ($scope, $log, $window, $timeout, $sta
     //};
 
     $scope.votes = {};
+    //$scope.votes = {
+    //    ":0": { vote: "yes", prognosis: "3" },
+    //    ":2": { vote: "no", prognosis: "0" },
+    //    ":4": { vote: "yes", prognosis: "3" },
+    //    ":6": { vote: "yes", prognosis: "3" },
+    //    ":8": { vote: "yes", prognosis: "4" },
+    //    ":10": { vote: "yes", prognosis: "4" },
+    //};
 
     var idleTimeout = function () {
         if ($scope.connected == 0) {
@@ -106,7 +134,7 @@ app.controller('mainController', function ($scope, $log, $window, $timeout, $sta
         $scope.players = $scope.players.filter(function(e){return e.playerId !== castEvent.playerInfo.playerId});
         $scope.players.push(castEvent.playerInfo);
         cast.game.gameManager_.updatePlayerData(castEvent.playerInfo.playerId, {name: castEvent.requestExtraMessageData.name, score: 0, avatar: avatarUrlBase+castEvent.playerInfo.playerId+'.png'});
-        if ($scope.gameData.phase == null && $scope.players.length == 1) {
+        if ($scope.gameData.phase == eGamePhase.CHOOSING && cast.game.gameManager_.getConnectedPlayers().length == 1) {
             cast.game.chooseRandomQuestioner($scope.gameData, eGamePhase);
         }
     });

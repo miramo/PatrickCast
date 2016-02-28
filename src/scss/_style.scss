@@ -1,3 +1,5 @@
+@import "compass/css3/filter";
+
 body {
   margin: 0px;
   overflow: hidden;
@@ -11,6 +13,26 @@ body {
 
 .center-text {
   text-align: center;
+}
+
+ul.list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+
+ul.list-inline {
+  padding-left: 0;
+  margin-left: -5px;
+  list-style: none;
+  >li {
+    display: inline-block;
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+}
+
+img.desaturate {
+  @include filter(grayscale(100%));
 }
 
 .castReceiverGamesDebugUi {

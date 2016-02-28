@@ -3,8 +3,7 @@
  */
 'use strict';
 
-app.controller('questionController', function ($scope, cast) {
-
+app.controller('questionController', function ($scope, $window, cast) {
 
 
 });
