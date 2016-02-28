@@ -13,7 +13,11 @@ var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
 var minifyHtml = require("gulp-minify-html");
 var ngAnnotate = require('gulp-ng-annotate');
+var gulpif = require('gulp-if');
+var jshint = require('gulp-jshint');
 var fs = require('fs');
+
+var compressing = false;
 
 var config = {
     sassPath: './src/scss',
@@ -55,10 +59,11 @@ gulp.task("min:jsBower", function () {
 });
 gulp.task("min:js", function () {
     return gulp.src(config.jsPath)
+        .pipe(jshint())
         .pipe(plumber(plumberErrorHandler))
         .pipe(ngAnnotate())
         .pipe(concat(config.jsDest))
-        //.pipe(uglify())
+        .pipe(gulpif(compressing, uglify()))
         .pipe(gulp.dest("."))
         .pipe(livereload())
         .pipe(notify({ message: 'Compress js task complete' }));
