@@ -5,7 +5,7 @@
 
 var app = angular.module('AskNCast', ['AskNCast.services', 'ui.router', 'ngMaterial', 'chart.js', 'angular-md5']);
 
-var dev = true;
+var dev = false;
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 

@@ -17,7 +17,7 @@ var gulpif = require('gulp-if');
 var jshint = require('gulp-jshint');
 var fs = require('fs');
 
-var compressing = false;
+var compressing = true;
 
 var config = {
     sassPath: './src/scss',
