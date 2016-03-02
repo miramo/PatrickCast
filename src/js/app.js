@@ -3,7 +3,7 @@
  */
 'use strict';
 
-var app = angular.module('AskNCast', ['AskNCast.services', 'ui.router', 'ngMaterial', 'chart.js']);
+var app = angular.module('AskNCast', ['AskNCast.services', 'ui.router', 'ngMaterial', 'chart.js', 'angular-md5']);
 
 var dev = true;
 

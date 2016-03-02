@@ -24,7 +24,7 @@
           <div class="chart-wrapper" ng-if="datas[datas.length - 1]">
             <canvas class="chart chart-pie" chart-data="datas[datas.length - 1]" chart-labels="labels">
             </canvas>
-            <p class="center-text">{{datasQuestions[datas.length - 1]}}</p>
+            <p class="chart-subtext center-text">{{datasQuestions[datas.length - 1]}}</p>
           </div>
         </div>
         <div flex layout="row">
@@ -32,14 +32,14 @@
             <div class="chart-wrapper" ng-if="datas[datas.length - 2]">
               <canvas class="chart chart-pie" chart-data="datas[datas.length - 2]" chart-labels="labels">
               </canvas>
-              <p class="center-text">{{datasQuestions[datas.length - 2]}}</p>
+              <p class="chart-subtext center-text">{{datasQuestions[datas.length - 2]}}</p>
             </div>
           </div>
           <div flex>
             <div class="chart-wrapper" ng-if="datas[datas.length - 3]">
               <canvas class="chart chart-pie" chart-data="datas[datas.length - 3]" chart-labels="labels">
               </canvas>
-              <p class="center-text">{{datasQuestions[datas.length - 3]}}</p>
+              <p class="chart-subtext center-text">{{datasQuestions[datas.length - 3]}}</p>
             </div>
           </div>
         </div>

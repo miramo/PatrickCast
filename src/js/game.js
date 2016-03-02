@@ -91,12 +91,14 @@ Game.prototype.calculateVotes = function (votes, players, gameData, eGamePhase) 
 
     var winnerPts = 2;
     var closerPts = 1;
-    var numberOfYes = this.getNumberOfYes(votes);
+    var numberOfYes = this.getNumberOfYes(votes, players);
     var winnersId = this.getWinnersId(votes, numberOfYes);
 
+    _.each(players, function (player) {player.playerData.lastPointsWon = 0;});
+    _.each(players, function (player) {player.playerData.lastPrognosis = 0;});
+    this.addLastPrognosisToPlayerData(votes, players);
     //If someone found the right prognosis, he earns 2 points
     if (winnersId.length > 0) {
-        _.each(players, function (player) {player.playerData.lastPointsWon = 0;});
         angular.forEach(winnersId, function(winnerId) {
             angular.forEach(players, function(player) {
                 if (player.playerId == winnerId) {
@@ -109,7 +111,6 @@ Game.prototype.calculateVotes = function (votes, players, gameData, eGamePhase) 
     //If no ones found the right prongnosis, the closest earn 1 point
     else {
         var closersId = this.getClosersId(votes, numberOfYes);
-        _.each(players, function (player) {player.playerData.lastPointsWon = 0;});
         angular.forEach(closersId, function(closerId) {
             angular.forEach(players, function(player) {
                 if (player.playerId == closerId) {
@@ -124,6 +125,20 @@ Game.prototype.calculateVotes = function (votes, players, gameData, eGamePhase) 
     gameData.skip_avail = false;
     this.setGameData(gameData);
     return numberOfYes;
+};
+Game.prototype.addLastPrognosisToPlayerData = function (votes, players) {
+    angular.forEach(votes, function(value, key) {
+        angular.forEach(players, function(player) {
+            console.log("---");
+            console.log(key);
+            console.log(player.playerId);
+            console.log("---");
+            if (player.playerId == key) {
+                player.playerData.lastPrognosis = value.prognosis;
+            }
+        });
+    });
+    console.log(players);
 };
 Game.prototype.getNumberOfYes = function (votes) {
     var yes = 0;

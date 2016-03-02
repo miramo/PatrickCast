@@ -47,6 +47,11 @@ main {
   height: 100%;
 }
 
+.chart-wrapper .chart-subtext {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 md-toolbar #topbar-logo {
   width: 60px;
   padding: 5px;

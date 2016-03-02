@@ -11,7 +11,7 @@
             <md-list ng-cloak="" class="">
               <md-list-item ng-repeat="player in players track by $index" ng-if="player.playerState == window.cast.receiver.games.PlayerState.PLAYING">
                 <img alt="{{ player.playerData.name }}" ng-src="{{ player.playerData.avatar }}" class="md-avatar">
-                <p>{{ player.playerData.name }}</p>
+                <p>{{ player.playerData.name }} expected {{ player.playerData.lastPrognosis }}</p>
                 <div class="md-secondary"><span ng-if="player.playerData.lastPointsWon">+</span>{{ player.playerData.lastPointsWon }} pts</div>
               </md-list-item>
             </md-list>
@@ -24,7 +24,7 @@
           <div class="chart-wrapper">
             <canvas class="chart chart-pie" chart-data="data" chart-labels="labels">
             </canvas>
-            <p class="center-text">{{dataQuestion}}</p>
+            <p class="chart-subtext center-text">{{dataQuestion}}</p>
           </div>
         </div>
       </div>

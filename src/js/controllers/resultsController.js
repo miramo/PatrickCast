@@ -17,7 +17,6 @@ app.controller('resultsController', function ($scope, $timeout, $state, cast) {
 
     $timeout(function() {
         cast.game.chooseRandomQuestioner($scope.gameData, $scope.geteGamePhase());
-        console.log('update with timeout fired');
     }, 10000);
 
     $scope.$on('$destroy', function () {

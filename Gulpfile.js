@@ -36,6 +36,7 @@ var config = {
         './bower_components/underscore/underscore-min.js',
         './bower_components/Chart.js/Chart.min.js',
         './bower_components/angular-chart.js/dist/angular-chart.min.js',
+        './bower_components/angular-md5/angular-md5.min.js',
     ],
     jsBowerDest: './assets/js/bower-final.min.js',
     jsPath: './src/js/**/*.js',
@@ -138,7 +139,7 @@ gulp.task("bower-restore", function () {
 
 gulp.task('watch', function () {
     livereload.listen();
-    gulp.watch(config.sassPath + '/**/*', ['compass']);
+    gulp.watch(config.sassPath + '/**/*', ['style:compass']);
     gulp.watch(config.viewsPath + '/**/*', ['copy:views']);
     gulp.watch(config.indexPath, ['copy:index']);
     gulp.watch(config.jsPath, ['min:js']);

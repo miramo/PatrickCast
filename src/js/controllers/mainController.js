@@ -3,45 +3,46 @@
  */
 'use strict';
 
-app.controller('mainController', function ($scope, $log, $window, $timeout, $state, cast) {
+app.controller('mainController', function ($scope, $log, $window, $timeout, $state, cast, md5) {
 
     $scope.window = $window;
     $scope.connected = 0;
     $scope.sessionCount = 0;
 
-    var avatarUrlBase = 'https://api.adorable.io/avatars/50/';
+    var avatarUrlBase = 'https://www.gravatar.com/avatar/';
+    var avatarUrlExtra = '?s=50&r=g&d=retro';
 
     var idlePromise;
 
     $scope.players = [];
     //$scope.players = [
     //    {
-    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:0.png', name: "test1", score: 0, lastPointsWon: 2 },
+    //        playerData: { avatar: avatarUrlBase + md5.createHash(':0') + avatarUrlExtra, name: "test1", score: 0, lastPointsWon: 2, lastPrognosis: 3 },
     //        playerId: ":0",
     //        playerState: 6,
     //    },
     //    {
-    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:2.png', name: "test2", score: 0, lastPointsWon: 0 },
+    //        playerData: { avatar: avatarUrlBase +  md5.createHash(':2') + avatarUrlExtra, name: "test2", score: 0, lastPointsWon: 0, lastPrognosis: 0 },
     //        playerId: ":2",
     //        playerState: 6,
     //    },
     //    {
-    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:4.png', name: "test3", score: 0, lastPointsWon: 0 },
+    //        playerData: { avatar: avatarUrlBase +  md5.createHash(':4') + avatarUrlExtra, name: "test3", score: 0, lastPointsWon: 0, lastPrognosis: 3 },
     //        playerId: ":4",
     //        playerState: 6,
     //    },
     //    {
-    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:6.png', name: "test4", score: 0, lastPointsWon: 0 },
+    //        playerData: { avatar: avatarUrlBase +  md5.createHash(':6') + avatarUrlExtra, name: "test4", score: 0, lastPointsWon: 0, lastPrognosis: 3 },
     //        playerId: ":6",
     //        playerState: 6,
     //    },
     //    {
-    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:8.png', name: "test5", score: 0, lastPointsWon: 0 },
+    //        playerData: { avatar: avatarUrlBase +  md5.createHash(':8') + avatarUrlExtra, name: "test5", score: 0, lastPointsWon: 0, lastPrognosis: 3 },
     //        playerId: ":8",
     //        playerState: 6,
     //    },
     //    {
-    //        playerData: { avatar: 'https://api.adorable.io/avatars/50/:10.png', name: "test6", score: 0, lastPointsWon: 0 },
+    //        playerData: { avatar: avatarUrlBase +  md5.createHash(':10') + avatarUrlExtra, name: "test6", score: 0, lastPointsWon: 0, lastPrognosis: 4 },
     //        playerId: ":10",
     //        playerState: 6,
     //    },
@@ -146,7 +147,7 @@ app.controller('mainController', function ($scope, $log, $window, $timeout, $sta
             $log.debug(castEvent);
         $scope.players = $scope.players.filter(function(e){return e.playerId !== castEvent.playerInfo.playerId});
         $scope.players.push(castEvent.playerInfo);
-        cast.game.gameManager_.updatePlayerData(castEvent.playerInfo.playerId, {name: castEvent.requestExtraMessageData.name, score: 0, avatar: avatarUrlBase+castEvent.playerInfo.playerId+'.png'});
+        cast.game.gameManager_.updatePlayerData(castEvent.playerInfo.playerId, {name: castEvent.requestExtraMessageData.name, score: 0, avatar: avatarUrlBase + md5.createHash(castEvent.playerInfo.playerId) + avatarUrlExtra});
         if ($scope.gameData.phase == eGamePhase.CHOOSING && cast.game.gameManager_.getConnectedPlayers().length == 1) {
             cast.game.chooseRandomQuestioner($scope.gameData, eGamePhase);
         }
